@@ -1,0 +1,40 @@
+{
+  "slug": "hf-text-generation",
+  "title": "Text Generation (Hugging Face)",
+  "description": "Runs a Hugging Face text-generation model on your runtime and prints the continuation.",
+  "tags": ["inference", "llm", "huggingface"],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "model",
+      "label": "Model",
+      "type": "select",
+      "options": ["distilgpt2", "gpt2", "Qwen/Qwen2.5-0.5B-Instruct"],
+      "default": "distilgpt2",
+      "required": true,
+      "description": "Larger models want a GPU runtime."
+    },
+    {
+      "key": "prompt",
+      "label": "Prompt",
+      "type": "text",
+      "default": "The best thing about running models on your own runtime is",
+      "required": true
+    },
+    {
+      "key": "max_new_tokens",
+      "label": "Max new tokens",
+      "type": "integer",
+      "default": 60,
+      "required": true
+    },
+    {
+      "key": "temperature",
+      "label": "Temperature",
+      "type": "number",
+      "default": 0.7,
+      "required": true,
+      "description": "0 for greedy decoding."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "runtime-report",
+  "title": "Runtime Report",
+  "description": "Prints what the connected Colab runtime actually is: Python version, platform, CPUs, disk and memory.",
+  "tags": ["starter", "diagnostics"],
+  "author": "NZAP Labs",
+  "params": []
+}

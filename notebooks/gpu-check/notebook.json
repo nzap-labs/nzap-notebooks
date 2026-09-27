@@ -1,0 +1,16 @@
+{
+  "slug": "gpu-check",
+  "title": "GPU / TPU Check",
+  "description": "Shows the accelerator attached to the runtime (nvidia-smi, PyTorch and optionally JAX).",
+  "tags": ["diagnostics", "gpu"],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "check_jax",
+      "label": "Also list JAX devices",
+      "type": "boolean",
+      "default": false,
+      "description": "Useful on TPU runtimes."
+    }
+  ]
+}

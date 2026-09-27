@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "notebooks": [
+    {
+      "slug": "gpu-check",
+      "title": "GPU / TPU Check",
+      "description": "Shows the accelerator attached to the runtime (nvidia-smi, PyTorch and optionally JAX).",
+      "tags": [
+        "diagnostics",
+        "gpu"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "check_jax",
+          "label": "Also list JAX devices",
+          "type": "boolean",
+          "default": false,
+          "description": "Useful on TPU runtimes."
+        }
+      ],
+      "source": "notebooks/gpu-check/notebook.py",
+      "sha256": "2422f2c3a3c9ebe22fd88d88a29c5ad412741f46fbccc7d0de6196a0f26924f1"
+    },
+    {
+      "slug": "print-notebook",
+      "title": "Print Notebook",
+      "description": "The smallest useful notebook: prints whatever string you give it.",
+      "tags": [
+        "starter"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "string_to_print",
+          "label": "String to print",
+          "type": "string",
+          "default": "Hello from NZAP",
+          "required": true,
+          "description": "Printed to the notebook output."
+        }
+      ],
+      "source": "notebooks/print-notebook/notebook.py",
+      "sha256": "eef7d26cd6794e376f22c77634458e7c96685a06c450293cb53bfaacaad3cf95"
+    },
+    {
+      "slug": "runtime-report",
+      "title": "Runtime Report",
+      "description": "Prints what the connected Colab runtime actually is: Python version, platform, CPUs, disk and memory.",
+      "tags": [
+        "starter",
+        "diagnostics"
+      ],
+      "author": "NZAP Labs",
+      "params": [],
+      "source": "notebooks/runtime-report/notebook.py",
+      "sha256": "03537d0df6075a50ece67f56f465611d9ac0270e779d920e6c91612bc717d31c"
+    },
+    {
+      "slug": "hf-sentiment",
+      "title": "Sentiment Analysis (Hugging Face)",
+      "description": "Scores each line of text as positive or negative with a DistilBERT classifier.",
+      "tags": [
+        "inference",
+        "nlp",
+        "huggingface"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "text",
+          "label": "Text (one item per line)",
+          "type": "text",
+          "default": "I love this!\nThis was a waste of time.",
+          "required": true
+        }
+      ],
+      "source": "notebooks/hf-sentiment/notebook.py",
+      "sha256": "04894f2c801d0ed6b1c82c3e303b2fde7936e972176d25822725a5f7c7a34b58"
+    },
+    {
+      "slug": "hf-text-generation",
+      "title": "Text Generation (Hugging Face)",
+      "description": "Runs a Hugging Face text-generation model on your runtime and prints the continuation.",
+      "tags": [
+        "inference",
+        "llm",
+        "huggingface"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "model",
+          "label": "Model",
+          "type": "select",
+          "options": [
+            "distilgpt2",
+            "gpt2",
+            "Qwen/Qwen2.5-0.5B-Instruct"
+          ],
+          "default": "distilgpt2",
+          "required": true,
+          "description": "Larger models want a GPU runtime."
+        },
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "default": "The best thing about running models on your own runtime is",
+          "required": true
+        },
+        {
+          "key": "max_new_tokens",
+          "label": "Max new tokens",
+          "type": "integer",
+          "default": 60,
+          "required": true
+        },
+        {
+          "key": "temperature",
+          "label": "Temperature",
+          "type": "number",
+          "default": 0.7,
+          "required": true,
+          "description": "0 for greedy decoding."
+        }
+      ],
+      "source": "notebooks/hf-text-generation/notebook.py",
+      "sha256": "7657ebb30516a13b90495ec7c5aebf2a605321086a1e15657a4ab815db9f881a"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "hf-sentiment",
+  "title": "Sentiment Analysis (Hugging Face)",
+  "description": "Scores each line of text as positive or negative with a DistilBERT classifier.",
+  "tags": ["inference", "nlp", "huggingface"],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "text",
+      "label": "Text (one item per line)",
+      "type": "text",
+      "default": "I love this!\nThis was a waste of time.",
+      "required": true
+    }
+  ]
+}

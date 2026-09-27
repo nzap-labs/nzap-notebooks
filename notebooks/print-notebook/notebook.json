@@ -1,0 +1,17 @@
+{
+  "slug": "print-notebook",
+  "title": "Print Notebook",
+  "description": "The smallest useful notebook: prints whatever string you give it.",
+  "tags": ["starter"],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "string_to_print",
+      "label": "String to print",
+      "type": "string",
+      "default": "Hello from NZAP",
+      "required": true,
+      "description": "Printed to the notebook output."
+    }
+  ]
+}
