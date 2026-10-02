@@ -94,11 +94,17 @@ if not voice.startswith(lang):
 
 stage("run", "Synthesising speech")
 run_started = time.time()
-chunks = []
+chunks, segments, offset = [], [], 0
 with torch.inference_mode():
     for result in pipelines[lang](text, voice=voice, speed=float(params.get("speed", 1.0)), split_pattern=r"\n+"):
         if result.audio is not None:
-            chunks.append(result.audio.cpu().numpy())
+            chunk = result.audio.cpu().numpy()
+            chunks.append(chunk)
+            # Where each piece of text starts and ends, for captions and syncing.
+            segments.append(
+                {"start": round(offset / SAMPLE_RATE, 3), "end": round((offset + len(chunk)) / SAMPLE_RATE, 3), "text": result.graphemes}
+            )
+            offset += len(chunk)
 if not chunks:
     raise RuntimeError("Kokoro produced no audio for that text.")
 
@@ -116,7 +122,7 @@ nzap(
     kind="audio",
     path=path,
     mime="audio/wav",
-    meta={"duration": round(duration, 2), "sampleRate": SAMPLE_RATE, "voice": voice},
+    meta={"duration": round(duration, 2), "sampleRate": SAMPLE_RATE, "voice": voice, "segments": segments},
 )
 nzap(
     "done",

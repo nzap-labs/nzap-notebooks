@@ -2,6 +2,179 @@
   "version": 1,
   "notebooks": [
     {
+      "slug": "breeze-tts",
+      "title": "Breeze TTS 2 (Voice Design & Cloning)",
+      "description": "Expressive 3B text to speech in English and Mandarin. Describe the voice you want in plain words, or clone one from a short reference clip. Supports vocal events like (sigh), (laugh) and (clears throat). Needs a GPU with at least 12 GB: on a free T4 it generates about 6x slower than real time, and faster on L4 or A100. Model weights are licensed for research and non-commercial use only.",
+      "tags": [
+        "app",
+        "audio",
+        "tts",
+        "voice-cloning",
+        "huggingface"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "text",
+          "label": "Text",
+          "type": "text",
+          "required": true,
+          "default": "(sigh) It is good to hear your voice again after all this time.",
+          "description": "Separate paragraphs with a blank line; each is generated in turn."
+        },
+        {
+          "key": "instruction",
+          "label": "Voice description",
+          "type": "text",
+          "default": "A warm, thoughtful young woman with a clear voice and a calm, reflective delivery.",
+          "description": "Who is speaking and how. With a reference clip this steers its delivery."
+        },
+        {
+          "key": "reference_audio",
+          "label": "Reference clip",
+          "type": "string",
+          "description": "Optional. 5 to 20 seconds of clean speech to clone."
+        },
+        {
+          "key": "reference_text",
+          "label": "Reference transcript",
+          "type": "text",
+          "description": "The exact words spoken in the reference clip."
+        },
+        {
+          "key": "consistent_voice",
+          "label": "Keep one voice across paragraphs",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "key": "cfg_scale",
+          "label": "Instruction strength",
+          "type": "number",
+          "default": 4.0
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "integer",
+          "default": 42
+        }
+      ],
+      "source": "notebooks/breeze-tts/notebook.py",
+      "sha256": "ac0d83a6f1d3fae2b712afd61119325399fa56114b852c00f583c3b1ca00a610",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "mic-vocal",
+        "category": "audio",
+        "tagline": "Design any voice in words, or clone one from a clip.",
+        "runtime": {
+          "accelerator": "T4",
+          "supported": [
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ],
+          "minVramGb": 12
+        },
+        "estimates": {
+          "setup": 150,
+          "run": 65,
+          "measuredOn": "T4",
+          "runNote": "for about 10 seconds of speech"
+        },
+        "runLabel": "Generate speech",
+        "inputs": [
+          {
+            "param": "text",
+            "widget": "textarea",
+            "rows": 6,
+            "maxLength": 4000,
+            "placeholder": "What should the voice say? Try (laugh) or (sigh)."
+          },
+          {
+            "param": "instruction",
+            "widget": "textarea",
+            "rows": 3,
+            "placeholder": "e.g. An energetic sports commentator with a deep voice"
+          },
+          {
+            "param": "reference_audio",
+            "widget": "file",
+            "accept": "audio/*",
+            "maxMb": 25,
+            "section": "Voice cloning"
+          },
+          {
+            "param": "reference_text",
+            "widget": "textarea",
+            "rows": 2,
+            "section": "Voice cloning"
+          },
+          {
+            "param": "consistent_voice",
+            "widget": "switch",
+            "section": "Advanced"
+          },
+          {
+            "param": "cfg_scale",
+            "widget": "slider",
+            "min": 1,
+            "max": 8,
+            "step": 0.5,
+            "section": "Advanced"
+          },
+          {
+            "param": "seed",
+            "widget": "number",
+            "section": "Advanced"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "speech",
+            "kind": "audio",
+            "label": "Speech"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Calm narrator",
+            "values": {
+              "instruction": "A calm, confident male narrator with a warm baritone and measured pacing, like a premium product film.",
+              "text": "Your notebooks, your GPUs, one native window."
+            }
+          },
+          {
+            "label": "Excited host",
+            "values": {
+              "instruction": "An excited young woman hosting a tech show, fast and upbeat, smiling as she speaks.",
+              "text": "(laugh) Okay, this is genuinely the fastest way I have found to run a model on a free GPU!"
+            }
+          },
+          {
+            "label": "Whisper",
+            "values": {
+              "instruction": "A soft, breathy whisper, close to the microphone, slow and intimate.",
+              "text": "Listen closely. The runtime is already warm."
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "Model card",
+            "url": "https://huggingface.co/BreezeBlue/Breeze-TTS-2"
+          },
+          {
+            "label": "Source",
+            "url": "https://github.com/breezeblue-ai/breeze-tts"
+          }
+        ],
+        "license": "Code Apache-2.0 · weights research and non-commercial only"
+      }
+    },
+    {
       "slug": "gpu-check",
       "title": "GPU / TPU Check",
       "description": "Shows the accelerator attached to the runtime (nvidia-smi, PyTorch and optionally JAX).",
@@ -129,7 +302,7 @@
         }
       ],
       "source": "notebooks/kokoro-tts/notebook.py",
-      "sha256": "89e6af89a145df79476f7994a4e4705ef75578287dd21a2d159c6ad587657082",
+      "sha256": "9c614f8a7f80fbe9a5fab4ee8c2f689ef4503c1aba84ae99e82ec273037ac435",
       "app": {
         "format": "nzap-app/1",
         "icon": "audio-lines",
@@ -147,10 +320,10 @@
           ]
         },
         "estimates": {
-          "setup": 60,
-          "run": 3,
+          "setup": 50,
+          "run": 2,
           "measuredOn": "T4",
-          "runNote": "for about 200 characters"
+          "runNote": "for about 10 seconds of speech"
         },
         "runLabel": "Generate speech",
         "inputs": [

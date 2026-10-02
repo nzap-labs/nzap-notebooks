@@ -1,0 +1,60 @@
+{
+  "slug": "breeze-tts",
+  "title": "Breeze TTS 2 (Voice Design & Cloning)",
+  "description": "Expressive 3B text to speech in English and Mandarin. Describe the voice you want in plain words, or clone one from a short reference clip. Supports vocal events like (sigh), (laugh) and (clears throat). Needs a GPU with at least 12 GB: on a free T4 it generates about 6x slower than real time, and faster on L4 or A100. Model weights are licensed for research and non-commercial use only.",
+  "tags": [
+    "app",
+    "audio",
+    "tts",
+    "voice-cloning",
+    "huggingface"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "text",
+      "label": "Text",
+      "type": "text",
+      "required": true,
+      "default": "(sigh) It is good to hear your voice again after all this time.",
+      "description": "Separate paragraphs with a blank line; each is generated in turn."
+    },
+    {
+      "key": "instruction",
+      "label": "Voice description",
+      "type": "text",
+      "default": "A warm, thoughtful young woman with a clear voice and a calm, reflective delivery.",
+      "description": "Who is speaking and how. With a reference clip this steers its delivery."
+    },
+    {
+      "key": "reference_audio",
+      "label": "Reference clip",
+      "type": "string",
+      "description": "Optional. 5 to 20 seconds of clean speech to clone."
+    },
+    {
+      "key": "reference_text",
+      "label": "Reference transcript",
+      "type": "text",
+      "description": "The exact words spoken in the reference clip."
+    },
+    {
+      "key": "consistent_voice",
+      "label": "Keep one voice across paragraphs",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "key": "cfg_scale",
+      "label": "Instruction strength",
+      "type": "number",
+      "default": 4.0
+    },
+    {
+      "key": "seed",
+      "label": "Seed",
+      "type": "integer",
+      "default": 42
+    }
+  ]
+}

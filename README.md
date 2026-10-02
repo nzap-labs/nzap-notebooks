@@ -59,6 +59,7 @@ images or tables instead of console text. [APPS.md](./APPS.md) is the format.
 | ------------------------------------------------------- | --------------------------------------------------------- | ------- |
 | [Kokoro Text to Speech](./notebooks/kokoro-tts)         | 54 voices in nine languages from an 82M model             | CPU, T4 |
 | [Sentiment Analysis](./notebooks/hf-sentiment)          | Positive / negative scores per line, as a table           | CPU     |
+| [Breeze TTS 2](./notebooks/breeze-tts)                  | Voice design in plain words, or cloning from a clip (non-commercial weights) | T4+     |
 
 ## Adding a notebook
 

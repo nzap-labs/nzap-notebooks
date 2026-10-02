@@ -15,10 +15,10 @@
     ]
   },
   "estimates": {
-    "setup": 60,
-    "run": 3,
+    "setup": 50,
+    "run": 2,
     "measuredOn": "T4",
-    "runNote": "for about 200 characters"
+    "runNote": "for about 10 seconds of speech"
   },
   "runLabel": "Generate speech",
   "inputs": [

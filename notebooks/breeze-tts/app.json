@@ -1,0 +1,111 @@
+{
+  "format": "nzap-app/1",
+  "icon": "mic-vocal",
+  "category": "audio",
+  "tagline": "Design any voice in words, or clone one from a clip.",
+  "runtime": {
+    "accelerator": "T4",
+    "supported": [
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ],
+    "minVramGb": 12
+  },
+  "estimates": {
+    "setup": 150,
+    "run": 65,
+    "measuredOn": "T4",
+    "runNote": "for about 10 seconds of speech"
+  },
+  "runLabel": "Generate speech",
+  "inputs": [
+    {
+      "param": "text",
+      "widget": "textarea",
+      "rows": 6,
+      "maxLength": 4000,
+      "placeholder": "What should the voice say? Try (laugh) or (sigh)."
+    },
+    {
+      "param": "instruction",
+      "widget": "textarea",
+      "rows": 3,
+      "placeholder": "e.g. An energetic sports commentator with a deep voice"
+    },
+    {
+      "param": "reference_audio",
+      "widget": "file",
+      "accept": "audio/*",
+      "maxMb": 25,
+      "section": "Voice cloning"
+    },
+    {
+      "param": "reference_text",
+      "widget": "textarea",
+      "rows": 2,
+      "section": "Voice cloning"
+    },
+    {
+      "param": "consistent_voice",
+      "widget": "switch",
+      "section": "Advanced"
+    },
+    {
+      "param": "cfg_scale",
+      "widget": "slider",
+      "min": 1,
+      "max": 8,
+      "step": 0.5,
+      "section": "Advanced"
+    },
+    {
+      "param": "seed",
+      "widget": "number",
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "speech",
+      "kind": "audio",
+      "label": "Speech"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Calm narrator",
+      "values": {
+        "instruction": "A calm, confident male narrator with a warm baritone and measured pacing, like a premium product film.",
+        "text": "Your notebooks, your GPUs, one native window."
+      }
+    },
+    {
+      "label": "Excited host",
+      "values": {
+        "instruction": "An excited young woman hosting a tech show, fast and upbeat, smiling as she speaks.",
+        "text": "(laugh) Okay, this is genuinely the fastest way I have found to run a model on a free GPU!"
+      }
+    },
+    {
+      "label": "Whisper",
+      "values": {
+        "instruction": "A soft, breathy whisper, close to the microphone, slow and intimate.",
+        "text": "Listen closely. The runtime is already warm."
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "Model card",
+      "url": "https://huggingface.co/BreezeBlue/Breeze-TTS-2"
+    },
+    {
+      "label": "Source",
+      "url": "https://github.com/breezeblue-ai/breeze-tts"
+    }
+  ],
+  "license": "Code Apache-2.0 · weights research and non-commercial only"
+}
