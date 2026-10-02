@@ -18,3 +18,5 @@ jobs:
           python-version: '3.12'
       - name: index.json is valid and up to date
         run: python scripts/build_index.py --check
+      - name: app.json validator rejects malformed apps
+        run: python scripts/test_build_index.py

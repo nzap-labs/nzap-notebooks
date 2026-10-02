@@ -11,8 +11,11 @@ with their Google credentials, so reviews are strict.
    prints its results.
 3. Add `notebook.json` with `slug`, `title`, `description`, `tags`, `author`
    and `params` (see the README).
-4. Run `python scripts/build_index.py` and commit the updated `index.json`.
-5. Open a pull request describing what the notebook does and which runtime it
+4. Optional: add `app.json` to make it an app with a real UI
+   ([APPS.md](./APPS.md)). Test it on the runtime you recommend and put the
+   measured times in `estimates`.
+5. Run `python scripts/build_index.py` and commit the updated `index.json`.
+6. Open a pull request describing what the notebook does and which runtime it
    needs (CPU / GPU / TPU).
 
 ## Review rules
@@ -23,7 +26,9 @@ A notebook is not accepted if it:
   example Hugging Face for a Hugging Face model);
 - asks for or reads credentials, tokens or `google.colab.auth` without an
   obvious, documented reason;
-- downloads and executes code at runtime (`curl | sh`, `exec(requests.get(...))`);
+- downloads and executes code at runtime (`curl | sh`, `exec(requests.get(...))`).
+  Importing a model's own inference code from Git is allowed when it is
+  pinned to a commit, so reviewers can read exactly what runs;
 - mines cryptocurrency or otherwise breaks the
   [Colab terms](https://research.google.com/colaboratory/faq.html);
 - is obfuscated, or larger than 512 KB.

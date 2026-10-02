@@ -23,6 +23,276 @@
       "sha256": "2422f2c3a3c9ebe22fd88d88a29c5ad412741f46fbccc7d0de6196a0f26924f1"
     },
     {
+      "slug": "kokoro-tts",
+      "title": "Kokoro Text to Speech",
+      "description": "Natural speech from text with Kokoro-82M: 54 voices in nine languages and adjustable speed. Runs on a CPU runtime, and much faster on a GPU.",
+      "tags": [
+        "app",
+        "audio",
+        "tts",
+        "huggingface"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "text",
+          "label": "Text",
+          "type": "text",
+          "required": true,
+          "default": "Hello from NZAP Engine. This voice was generated on your own Colab runtime.",
+          "description": "Blank lines start a new paragraph."
+        },
+        {
+          "key": "language",
+          "label": "Language",
+          "type": "select",
+          "options": [
+            "a",
+            "b",
+            "e",
+            "f",
+            "h",
+            "i",
+            "j",
+            "p",
+            "z"
+          ],
+          "default": "a"
+        },
+        {
+          "key": "voice",
+          "label": "Voice",
+          "type": "select",
+          "options": [
+            "af_heart",
+            "af_bella",
+            "af_nicole",
+            "af_aoede",
+            "af_kore",
+            "af_sarah",
+            "af_nova",
+            "af_sky",
+            "af_alloy",
+            "af_jessica",
+            "af_river",
+            "am_michael",
+            "am_fenrir",
+            "am_puck",
+            "am_echo",
+            "am_eric",
+            "am_liam",
+            "am_onyx",
+            "am_santa",
+            "am_adam",
+            "bf_emma",
+            "bf_isabella",
+            "bf_alice",
+            "bf_lily",
+            "bm_george",
+            "bm_fable",
+            "bm_lewis",
+            "bm_daniel",
+            "ef_dora",
+            "em_alex",
+            "em_santa",
+            "ff_siwis",
+            "hf_alpha",
+            "hf_beta",
+            "hm_omega",
+            "hm_psi",
+            "if_sara",
+            "im_nicola",
+            "jf_alpha",
+            "jf_gongitsune",
+            "jf_nezumi",
+            "jf_tebukuro",
+            "jm_kumo",
+            "pf_dora",
+            "pm_alex",
+            "pm_santa",
+            "zf_xiaobei",
+            "zf_xiaoni",
+            "zf_xiaoxiao",
+            "zf_xiaoyi",
+            "zm_yunjian",
+            "zm_yunxi",
+            "zm_yunxia",
+            "zm_yunyang"
+          ],
+          "default": "af_heart"
+        },
+        {
+          "key": "speed",
+          "label": "Speed",
+          "type": "number",
+          "default": 1.0
+        }
+      ],
+      "source": "notebooks/kokoro-tts/notebook.py",
+      "sha256": "89e6af89a145df79476f7994a4e4705ef75578287dd21a2d159c6ad587657082",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "audio-lines",
+        "category": "audio",
+        "tagline": "Turn text into lifelike speech in seconds.",
+        "runtime": {
+          "accelerator": "T4",
+          "supported": [
+            "CPU",
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ]
+        },
+        "estimates": {
+          "setup": 60,
+          "run": 3,
+          "measuredOn": "T4",
+          "runNote": "for about 200 characters"
+        },
+        "runLabel": "Generate speech",
+        "inputs": [
+          {
+            "param": "text",
+            "widget": "textarea",
+            "rows": 6,
+            "maxLength": 5000,
+            "placeholder": "Type or paste what you want spoken…"
+          },
+          {
+            "param": "language",
+            "widget": "segmented",
+            "labels": {
+              "a": "English (US)",
+              "b": "English (UK)",
+              "e": "Spanish",
+              "f": "French",
+              "h": "Hindi",
+              "i": "Italian",
+              "j": "Japanese (first use adds ~2 min)",
+              "p": "Portuguese (BR)",
+              "z": "Mandarin (first use adds ~30 s)"
+            }
+          },
+          {
+            "param": "voice",
+            "widget": "select",
+            "labels": {
+              "af_heart": "Heart · female · top rated",
+              "af_bella": "Bella · female · top rated",
+              "af_nicole": "Nicole · female · top rated",
+              "af_aoede": "Aoede · female",
+              "af_kore": "Kore · female",
+              "af_sarah": "Sarah · female",
+              "af_nova": "Nova · female",
+              "af_sky": "Sky · female",
+              "af_alloy": "Alloy · female",
+              "af_jessica": "Jessica · female",
+              "af_river": "River · female",
+              "am_michael": "Michael · male · top rated",
+              "am_fenrir": "Fenrir · male · top rated",
+              "am_puck": "Puck · male",
+              "am_echo": "Echo · male",
+              "am_eric": "Eric · male",
+              "am_liam": "Liam · male",
+              "am_onyx": "Onyx · male",
+              "am_santa": "Santa · male",
+              "am_adam": "Adam · male",
+              "bf_emma": "Emma · female · top rated",
+              "bf_isabella": "Isabella · female",
+              "bf_alice": "Alice · female",
+              "bf_lily": "Lily · female",
+              "bm_george": "George · male · top rated",
+              "bm_fable": "Fable · male",
+              "bm_lewis": "Lewis · male",
+              "bm_daniel": "Daniel · male",
+              "ef_dora": "Dora · female",
+              "em_alex": "Alex · male",
+              "em_santa": "Santa · male",
+              "ff_siwis": "Siwis · female · top rated",
+              "hf_alpha": "Alpha · female",
+              "hf_beta": "Beta · female",
+              "hm_omega": "Omega · male",
+              "hm_psi": "Psi · male",
+              "if_sara": "Sara · female",
+              "im_nicola": "Nicola · male",
+              "jf_alpha": "Alpha · female",
+              "jf_gongitsune": "Gongitsune · female",
+              "jf_nezumi": "Nezumi · female",
+              "jf_tebukuro": "Tebukuro · female",
+              "jm_kumo": "Kumo · male",
+              "pf_dora": "Dora · female",
+              "pm_alex": "Alex · male",
+              "pm_santa": "Santa · male",
+              "zf_xiaobei": "Xiaobei · female",
+              "zf_xiaoni": "Xiaoni · female",
+              "zf_xiaoxiao": "Xiaoxiao · female",
+              "zf_xiaoyi": "Xiaoyi · female",
+              "zm_yunjian": "Yunjian · male",
+              "zm_yunxi": "Yunxi · male",
+              "zm_yunxia": "Yunxia · male",
+              "zm_yunyang": "Yunyang · male"
+            },
+            "filter": {
+              "param": "language",
+              "prefix": true
+            }
+          },
+          {
+            "param": "speed",
+            "widget": "slider",
+            "min": 0.5,
+            "max": 2.0,
+            "step": 0.05,
+            "unit": "x"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "speech",
+            "kind": "audio",
+            "label": "Speech"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Product intro",
+            "values": {
+              "language": "a",
+              "voice": "af_heart",
+              "text": "Meet NZAP Engine: your own Colab GPUs, from a native window."
+            }
+          },
+          {
+            "label": "British narrator",
+            "values": {
+              "language": "b",
+              "voice": "bm_george",
+              "speed": 0.95,
+              "text": "In the beginning, there was a single notebook, and it was good."
+            }
+          },
+          {
+            "label": "Bonjour",
+            "values": {
+              "language": "f",
+              "voice": "ff_siwis",
+              "text": "Bonjour ! Ceci est une voix générée sur votre propre machine Colab."
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "Model card",
+            "url": "https://huggingface.co/hexgrad/Kokoro-82M"
+          }
+        ],
+        "license": "Apache-2.0"
+      }
+    },
+    {
       "slug": "print-notebook",
       "title": "Print Notebook",
       "description": "The smallest useful notebook: prints whatever string you give it.",
@@ -61,6 +331,7 @@
       "title": "Sentiment Analysis (Hugging Face)",
       "description": "Scores each line of text as positive or negative with a DistilBERT classifier.",
       "tags": [
+        "app",
         "inference",
         "nlp",
         "huggingface"
@@ -76,7 +347,61 @@
         }
       ],
       "source": "notebooks/hf-sentiment/notebook.py",
-      "sha256": "04894f2c801d0ed6b1c82c3e303b2fde7936e972176d25822725a5f7c7a34b58"
+      "sha256": "fce530dab467231d0cfd47ad546a2e382a2ca487965d3fc9e24219a789354610",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "smile",
+        "category": "text",
+        "tagline": "Score how positive or negative each line of text is.",
+        "runtime": {
+          "accelerator": "CPU",
+          "supported": [
+            "CPU",
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ]
+        },
+        "estimates": {
+          "setup": 20,
+          "run": 1,
+          "measuredOn": "CPU",
+          "runNote": "for a few dozen lines"
+        },
+        "runLabel": "Score sentiment",
+        "inputs": [
+          {
+            "param": "text",
+            "widget": "textarea",
+            "rows": 8,
+            "placeholder": "One review, tweet or sentence per line"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "scores",
+            "kind": "table",
+            "label": "Scores"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Product reviews",
+            "values": {
+              "text": "Setup took thirty seconds. Love it.\nThe battery died after a day.\nIt's fine, I guess.\nBest purchase this year!"
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "Model card",
+            "url": "https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english"
+          }
+        ],
+        "license": "Apache-2.0"
+      }
     },
     {
       "slug": "hf-text-generation",

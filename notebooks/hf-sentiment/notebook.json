@@ -2,7 +2,12 @@
   "slug": "hf-sentiment",
   "title": "Sentiment Analysis (Hugging Face)",
   "description": "Scores each line of text as positive or negative with a DistilBERT classifier.",
-  "tags": ["inference", "nlp", "huggingface"],
+  "tags": [
+    "app",
+    "inference",
+    "nlp",
+    "huggingface"
+  ],
   "author": "NZAP Labs",
   "params": [
     {

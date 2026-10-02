@@ -1,0 +1,54 @@
+{
+  "format": "nzap-app/1",
+  "icon": "smile",
+  "category": "text",
+  "tagline": "Score how positive or negative each line of text is.",
+  "runtime": {
+    "accelerator": "CPU",
+    "supported": [
+      "CPU",
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ]
+  },
+  "estimates": {
+    "setup": 20,
+    "run": 1,
+    "measuredOn": "CPU",
+    "runNote": "for a few dozen lines"
+  },
+  "runLabel": "Score sentiment",
+  "inputs": [
+    {
+      "param": "text",
+      "widget": "textarea",
+      "rows": 8,
+      "placeholder": "One review, tweet or sentence per line"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "scores",
+      "kind": "table",
+      "label": "Scores"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Product reviews",
+      "values": {
+        "text": "Setup took thirty seconds. Love it.\nThe battery died after a day.\nIt's fine, I guess.\nBest purchase this year!"
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "Model card",
+      "url": "https://huggingface.co/distilbert/distilbert-base-uncased-finetuned-sst-2-english"
+    }
+  ],
+  "license": "Apache-2.0"
+}

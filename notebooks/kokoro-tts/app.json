@@ -1,0 +1,161 @@
+{
+  "format": "nzap-app/1",
+  "icon": "audio-lines",
+  "category": "audio",
+  "tagline": "Turn text into lifelike speech in seconds.",
+  "runtime": {
+    "accelerator": "T4",
+    "supported": [
+      "CPU",
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ]
+  },
+  "estimates": {
+    "setup": 60,
+    "run": 3,
+    "measuredOn": "T4",
+    "runNote": "for about 200 characters"
+  },
+  "runLabel": "Generate speech",
+  "inputs": [
+    {
+      "param": "text",
+      "widget": "textarea",
+      "rows": 6,
+      "maxLength": 5000,
+      "placeholder": "Type or paste what you want spoken…"
+    },
+    {
+      "param": "language",
+      "widget": "segmented",
+      "labels": {
+        "a": "English (US)",
+        "b": "English (UK)",
+        "e": "Spanish",
+        "f": "French",
+        "h": "Hindi",
+        "i": "Italian",
+        "j": "Japanese (first use adds ~2 min)",
+        "p": "Portuguese (BR)",
+        "z": "Mandarin (first use adds ~30 s)"
+      }
+    },
+    {
+      "param": "voice",
+      "widget": "select",
+      "labels": {
+        "af_heart": "Heart · female · top rated",
+        "af_bella": "Bella · female · top rated",
+        "af_nicole": "Nicole · female · top rated",
+        "af_aoede": "Aoede · female",
+        "af_kore": "Kore · female",
+        "af_sarah": "Sarah · female",
+        "af_nova": "Nova · female",
+        "af_sky": "Sky · female",
+        "af_alloy": "Alloy · female",
+        "af_jessica": "Jessica · female",
+        "af_river": "River · female",
+        "am_michael": "Michael · male · top rated",
+        "am_fenrir": "Fenrir · male · top rated",
+        "am_puck": "Puck · male",
+        "am_echo": "Echo · male",
+        "am_eric": "Eric · male",
+        "am_liam": "Liam · male",
+        "am_onyx": "Onyx · male",
+        "am_santa": "Santa · male",
+        "am_adam": "Adam · male",
+        "bf_emma": "Emma · female · top rated",
+        "bf_isabella": "Isabella · female",
+        "bf_alice": "Alice · female",
+        "bf_lily": "Lily · female",
+        "bm_george": "George · male · top rated",
+        "bm_fable": "Fable · male",
+        "bm_lewis": "Lewis · male",
+        "bm_daniel": "Daniel · male",
+        "ef_dora": "Dora · female",
+        "em_alex": "Alex · male",
+        "em_santa": "Santa · male",
+        "ff_siwis": "Siwis · female · top rated",
+        "hf_alpha": "Alpha · female",
+        "hf_beta": "Beta · female",
+        "hm_omega": "Omega · male",
+        "hm_psi": "Psi · male",
+        "if_sara": "Sara · female",
+        "im_nicola": "Nicola · male",
+        "jf_alpha": "Alpha · female",
+        "jf_gongitsune": "Gongitsune · female",
+        "jf_nezumi": "Nezumi · female",
+        "jf_tebukuro": "Tebukuro · female",
+        "jm_kumo": "Kumo · male",
+        "pf_dora": "Dora · female",
+        "pm_alex": "Alex · male",
+        "pm_santa": "Santa · male",
+        "zf_xiaobei": "Xiaobei · female",
+        "zf_xiaoni": "Xiaoni · female",
+        "zf_xiaoxiao": "Xiaoxiao · female",
+        "zf_xiaoyi": "Xiaoyi · female",
+        "zm_yunjian": "Yunjian · male",
+        "zm_yunxi": "Yunxi · male",
+        "zm_yunxia": "Yunxia · male",
+        "zm_yunyang": "Yunyang · male"
+      },
+      "filter": {
+        "param": "language",
+        "prefix": true
+      }
+    },
+    {
+      "param": "speed",
+      "widget": "slider",
+      "min": 0.5,
+      "max": 2.0,
+      "step": 0.05,
+      "unit": "x"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "speech",
+      "kind": "audio",
+      "label": "Speech"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Product intro",
+      "values": {
+        "language": "a",
+        "voice": "af_heart",
+        "text": "Meet NZAP Engine: your own Colab GPUs, from a native window."
+      }
+    },
+    {
+      "label": "British narrator",
+      "values": {
+        "language": "b",
+        "voice": "bm_george",
+        "speed": 0.95,
+        "text": "In the beginning, there was a single notebook, and it was good."
+      }
+    },
+    {
+      "label": "Bonjour",
+      "values": {
+        "language": "f",
+        "voice": "ff_siwis",
+        "text": "Bonjour ! Ceci est une voix générée sur votre propre machine Colab."
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "Model card",
+      "url": "https://huggingface.co/hexgrad/Kokoro-82M"
+    }
+  ],
+  "license": "Apache-2.0"
+}
