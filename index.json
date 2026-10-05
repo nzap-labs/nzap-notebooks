@@ -625,6 +625,237 @@
       ],
       "source": "notebooks/hf-text-generation/notebook.py",
       "sha256": "7657ebb30516a13b90495ec7c5aebf2a605321086a1e15657a4ab815db9f881a"
+    },
+    {
+      "slug": "z-image",
+      "title": "Z-Image (Text to Image)",
+      "description": "Photorealistic text to image with Tongyi-MAI's 6B Z-Image, run from unsloth's GGUF quantizations so it fits a free T4. Patched for fast fp16 on the T4 (bf16 is emulated there) without the black images plain fp16 gives. The first run on a runtime downloads about 14 GB; later runs only generate. Weights are Apache-2.0.",
+      "tags": [
+        "app",
+        "image",
+        "text-to-image",
+        "diffusion",
+        "gguf",
+        "huggingface"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "required": true,
+          "default": "A red fox curled up in fresh snow at dawn, soft golden light, shallow depth of field, photorealistic",
+          "description": "What to draw. Details about subject, light and style help."
+        },
+        {
+          "key": "negative_prompt",
+          "label": "Avoid",
+          "type": "text",
+          "default": "",
+          "description": "Optional. What the image should not contain."
+        },
+        {
+          "key": "size",
+          "label": "Size",
+          "type": "select",
+          "options": [
+            "768x768",
+            "1024x1024",
+            "1024x768",
+            "768x1024",
+            "1280x720",
+            "720x1280"
+          ],
+          "default": "768x768"
+        },
+        {
+          "key": "quality",
+          "label": "Model quantization",
+          "type": "select",
+          "options": [
+            "Q2_K",
+            "Q4_K_M",
+            "Q6_K",
+            "Q8_0"
+          ],
+          "default": "Q6_K",
+          "description": "Larger files are closer to the full model. Switching reloads the transformer."
+        },
+        {
+          "key": "steps",
+          "label": "Steps",
+          "type": "integer",
+          "default": 28
+        },
+        {
+          "key": "guidance",
+          "label": "Guidance",
+          "type": "number",
+          "default": 4.0,
+          "description": "How strictly to follow the prompt. 3 to 5 works best."
+        },
+        {
+          "key": "num_images",
+          "label": "Images",
+          "type": "integer",
+          "default": 1
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "integer",
+          "default": -1,
+          "description": "-1 picks a random seed. Each extra image uses the next seed."
+        },
+        {
+          "key": "hf_token",
+          "label": "Hugging Face token",
+          "type": "string",
+          "default": "",
+          "description": "Optional. A read-only token from huggingface.co/settings/tokens speeds up the first download (authenticated rate limits). It is sent only to Hugging Face, but like every input it is kept in this runtime's local history and exports, so use a read-only token."
+        }
+      ],
+      "source": "notebooks/z-image/notebook.py",
+      "sha256": "f6f3db091d5633cfe1e76b8978129bc1635739a087d13a8e96dcb1c66849677d",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "image",
+        "category": "image",
+        "tagline": "Photorealistic images from a sentence, on a free T4.",
+        "runtime": {
+          "accelerator": "T4",
+          "supported": [
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ],
+          "minVramGb": 15
+        },
+        "estimates": {
+          "setup": 240,
+          "run": 110,
+          "measuredOn": "T4",
+          "runNote": "per 768x768 image at 28 steps"
+        },
+        "runLabel": "Generate image",
+        "inputs": [
+          {
+            "param": "prompt",
+            "widget": "textarea",
+            "rows": 4,
+            "maxLength": 2000,
+            "placeholder": "Describe the image: subject, setting, light, style."
+          },
+          {
+            "param": "size",
+            "widget": "select",
+            "labels": {
+              "768x768": "Square 768 (fastest)",
+              "1024x1024": "Square 1024",
+              "1024x768": "Landscape 4:3",
+              "768x1024": "Portrait 3:4",
+              "1280x720": "Widescreen 16:9",
+              "720x1280": "Vertical 9:16"
+            }
+          },
+          {
+            "param": "num_images",
+            "widget": "slider",
+            "min": 1,
+            "max": 4,
+            "step": 1
+          },
+          {
+            "param": "negative_prompt",
+            "widget": "textarea",
+            "rows": 2,
+            "placeholder": "e.g. blurry, low quality, watermark",
+            "section": "Advanced"
+          },
+          {
+            "param": "quality",
+            "widget": "segmented",
+            "labels": {
+              "Q2_K": "Q2_K · 3.7 GB",
+              "Q4_K_M": "Q4_K_M · 4.7 GB",
+              "Q6_K": "Q6_K · 5.7 GB",
+              "Q8_0": "Q8_0 · 6.7 GB"
+            },
+            "section": "Advanced"
+          },
+          {
+            "param": "steps",
+            "widget": "slider",
+            "min": 8,
+            "max": 50,
+            "step": 1,
+            "section": "Advanced"
+          },
+          {
+            "param": "guidance",
+            "widget": "slider",
+            "min": 1,
+            "max": 8,
+            "step": 0.5,
+            "section": "Advanced"
+          },
+          {
+            "param": "seed",
+            "widget": "number",
+            "min": -1,
+            "section": "Advanced"
+          },
+          {
+            "param": "hf_token",
+            "widget": "input",
+            "placeholder": "hf_… (optional, for faster downloads)",
+            "section": "Advanced"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "image",
+            "kind": "image",
+            "label": "Image"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Fox in snow",
+            "values": {
+              "prompt": "A red fox curled up in fresh snow at dawn, soft golden light, shallow depth of field, photorealistic"
+            }
+          },
+          {
+            "label": "Rainy tram",
+            "values": {
+              "prompt": "A vintage tram on a rainy street in Lisbon at dusk, warm window light, reflections on wet cobblestones, 35mm photo",
+              "size": "1024x768"
+            }
+          },
+          {
+            "label": "Product shot",
+            "values": {
+              "prompt": "A matte black ceramic coffee mug on a light oak table, soft window light, minimal studio product photo",
+              "negative_prompt": "text, watermark, clutter"
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "Model card",
+            "url": "https://huggingface.co/Tongyi-MAI/Z-Image"
+          },
+          {
+            "label": "GGUF quantizations",
+            "url": "https://huggingface.co/unsloth/Z-Image-GGUF"
+          }
+        ],
+        "license": "Apache-2.0"
+      }
     }
   ]
 }

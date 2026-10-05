@@ -1,0 +1,91 @@
+{
+  "slug": "z-image",
+  "title": "Z-Image (Text to Image)",
+  "description": "Photorealistic text to image with Tongyi-MAI's 6B Z-Image, run from unsloth's GGUF quantizations so it fits a free T4. Patched for fast fp16 on the T4 (bf16 is emulated there) without the black images plain fp16 gives. The first run on a runtime downloads about 14 GB; later runs only generate. Weights are Apache-2.0.",
+  "tags": [
+    "app",
+    "image",
+    "text-to-image",
+    "diffusion",
+    "gguf",
+    "huggingface"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "prompt",
+      "label": "Prompt",
+      "type": "text",
+      "required": true,
+      "default": "A red fox curled up in fresh snow at dawn, soft golden light, shallow depth of field, photorealistic",
+      "description": "What to draw. Details about subject, light and style help."
+    },
+    {
+      "key": "negative_prompt",
+      "label": "Avoid",
+      "type": "text",
+      "default": "",
+      "description": "Optional. What the image should not contain."
+    },
+    {
+      "key": "size",
+      "label": "Size",
+      "type": "select",
+      "options": [
+        "768x768",
+        "1024x1024",
+        "1024x768",
+        "768x1024",
+        "1280x720",
+        "720x1280"
+      ],
+      "default": "768x768"
+    },
+    {
+      "key": "quality",
+      "label": "Model quantization",
+      "type": "select",
+      "options": [
+        "Q2_K",
+        "Q4_K_M",
+        "Q6_K",
+        "Q8_0"
+      ],
+      "default": "Q6_K",
+      "description": "Larger files are closer to the full model. Switching reloads the transformer."
+    },
+    {
+      "key": "steps",
+      "label": "Steps",
+      "type": "integer",
+      "default": 28
+    },
+    {
+      "key": "guidance",
+      "label": "Guidance",
+      "type": "number",
+      "default": 4.0,
+      "description": "How strictly to follow the prompt. 3 to 5 works best."
+    },
+    {
+      "key": "num_images",
+      "label": "Images",
+      "type": "integer",
+      "default": 1
+    },
+    {
+      "key": "seed",
+      "label": "Seed",
+      "type": "integer",
+      "default": -1,
+      "description": "-1 picks a random seed. Each extra image uses the next seed."
+    },
+    {
+      "key": "hf_token",
+      "label": "Hugging Face token",
+      "type": "string",
+      "default": "",
+      "description": "Optional. A read-only token from huggingface.co/settings/tokens speeds up the first download (authenticated rate limits). It is sent only to Hugging Face, but like every input it is kept in this runtime's local history and exports, so use a read-only token."
+    }
+  ]
+}

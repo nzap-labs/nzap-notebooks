@@ -1,0 +1,138 @@
+{
+  "format": "nzap-app/1",
+  "icon": "image",
+  "category": "image",
+  "tagline": "Photorealistic images from a sentence, on a free T4.",
+  "runtime": {
+    "accelerator": "T4",
+    "supported": [
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ],
+    "minVramGb": 15
+  },
+  "estimates": {
+    "setup": 240,
+    "run": 110,
+    "measuredOn": "T4",
+    "runNote": "per 768x768 image at 28 steps"
+  },
+  "runLabel": "Generate image",
+  "inputs": [
+    {
+      "param": "prompt",
+      "widget": "textarea",
+      "rows": 4,
+      "maxLength": 2000,
+      "placeholder": "Describe the image: subject, setting, light, style."
+    },
+    {
+      "param": "size",
+      "widget": "select",
+      "labels": {
+        "768x768": "Square 768 (fastest)",
+        "1024x1024": "Square 1024",
+        "1024x768": "Landscape 4:3",
+        "768x1024": "Portrait 3:4",
+        "1280x720": "Widescreen 16:9",
+        "720x1280": "Vertical 9:16"
+      }
+    },
+    {
+      "param": "num_images",
+      "widget": "slider",
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "param": "negative_prompt",
+      "widget": "textarea",
+      "rows": 2,
+      "placeholder": "e.g. blurry, low quality, watermark",
+      "section": "Advanced"
+    },
+    {
+      "param": "quality",
+      "widget": "segmented",
+      "labels": {
+        "Q2_K": "Q2_K · 3.7 GB",
+        "Q4_K_M": "Q4_K_M · 4.7 GB",
+        "Q6_K": "Q6_K · 5.7 GB",
+        "Q8_0": "Q8_0 · 6.7 GB"
+      },
+      "section": "Advanced"
+    },
+    {
+      "param": "steps",
+      "widget": "slider",
+      "min": 8,
+      "max": 50,
+      "step": 1,
+      "section": "Advanced"
+    },
+    {
+      "param": "guidance",
+      "widget": "slider",
+      "min": 1,
+      "max": 8,
+      "step": 0.5,
+      "section": "Advanced"
+    },
+    {
+      "param": "seed",
+      "widget": "number",
+      "min": -1,
+      "section": "Advanced"
+    },
+    {
+      "param": "hf_token",
+      "widget": "input",
+      "placeholder": "hf_… (optional, for faster downloads)",
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "image",
+      "kind": "image",
+      "label": "Image"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Fox in snow",
+      "values": {
+        "prompt": "A red fox curled up in fresh snow at dawn, soft golden light, shallow depth of field, photorealistic"
+      }
+    },
+    {
+      "label": "Rainy tram",
+      "values": {
+        "prompt": "A vintage tram on a rainy street in Lisbon at dusk, warm window light, reflections on wet cobblestones, 35mm photo",
+        "size": "1024x768"
+      }
+    },
+    {
+      "label": "Product shot",
+      "values": {
+        "prompt": "A matte black ceramic coffee mug on a light oak table, soft window light, minimal studio product photo",
+        "negative_prompt": "text, watermark, clutter"
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "Model card",
+      "url": "https://huggingface.co/Tongyi-MAI/Z-Image"
+    },
+    {
+      "label": "GGUF quantizations",
+      "url": "https://huggingface.co/unsloth/Z-Image-GGUF"
+    }
+  ],
+  "license": "Apache-2.0"
+}
