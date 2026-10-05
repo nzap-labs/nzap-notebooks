@@ -1,0 +1,137 @@
+{
+  "format": "nzap-app/1",
+  "icon": "image-plus",
+  "category": "image",
+  "tagline": "Photorealistic images with sharp, readable text, on a free T4.",
+  "runtime": {
+    "accelerator": "T4",
+    "supported": [
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ],
+    "minVramGb": 15
+  },
+  "estimates": {
+    "setup": 1500,
+    "run": 180,
+    "measuredOn": "T4",
+    "runNote": "per 1024x1024 image at 20 steps"
+  },
+  "runLabel": "Generate image",
+  "inputs": [
+    {
+      "param": "prompt",
+      "widget": "textarea",
+      "rows": 4,
+      "maxLength": 2000,
+      "placeholder": "Describe the image. Put any text it should show in quotes."
+    },
+    {
+      "param": "size",
+      "widget": "select",
+      "labels": {
+        "1024x1024": "Square 1024",
+        "768x768": "Square 768 (faster)",
+        "1152x896": "Landscape",
+        "896x1152": "Portrait",
+        "1280x720": "Widescreen 16:9",
+        "720x1280": "Vertical 9:16"
+      }
+    },
+    {
+      "param": "num_images",
+      "widget": "slider",
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "param": "negative_prompt",
+      "widget": "textarea",
+      "rows": 2,
+      "placeholder": "e.g. blurry, low quality, watermark",
+      "section": "Advanced"
+    },
+    {
+      "param": "quality",
+      "widget": "segmented",
+      "labels": {
+        "Q4_K_M": "Q4_K_M · 3.9 GB",
+        "Q6_K": "Q6_K · 5.8 GB"
+      },
+      "section": "Advanced"
+    },
+    {
+      "param": "steps",
+      "widget": "slider",
+      "min": 8,
+      "max": 50,
+      "step": 1,
+      "section": "Advanced"
+    },
+    {
+      "param": "guidance",
+      "widget": "slider",
+      "min": 1,
+      "max": 10,
+      "step": 0.5,
+      "section": "Advanced"
+    },
+    {
+      "param": "seed",
+      "widget": "number",
+      "min": -1,
+      "section": "Advanced"
+    },
+    {
+      "param": "hf_token",
+      "widget": "input",
+      "placeholder": "hf_… (optional, for faster downloads)",
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "image",
+      "kind": "image",
+      "label": "Image"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Travel poster",
+      "values": {
+        "prompt": "A vintage travel poster of a mountain village, bold lettering that reads \"VISIT THE ALPS\", flat illustration, warm colors",
+        "size": "896x1152"
+      }
+    },
+    {
+      "label": "Photo",
+      "values": {
+        "prompt": "A golden retriever puppy running through a sunlit meadow, shallow depth of field, photorealistic"
+      }
+    },
+    {
+      "label": "Quick draft",
+      "values": {
+        "prompt": "A golden retriever puppy running through a sunlit meadow, shallow depth of field, photorealistic",
+        "size": "768x768",
+        "guidance": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "Model card",
+      "url": "https://huggingface.co/Qwen/Qwen-Image-2.1"
+    },
+    {
+      "label": "GGUF quantizations",
+      "url": "https://huggingface.co/unsloth/Qwen-Image-2.1-GGUF"
+    }
+  ],
+  "license": "Qwen Research License · weights research and non-commercial use only"
+}

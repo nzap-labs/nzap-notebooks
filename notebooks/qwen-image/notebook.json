@@ -1,0 +1,89 @@
+{
+  "slug": "qwen-image",
+  "title": "Qwen-Image 2.1 (Text to Image)",
+  "description": "Text to image with Qwen-Image-2.1, strong at photorealism and at rendering legible text in images (signs, posters, labels). Runs unsloth's GGUF quantizations with the 8B Qwen3-VL text encoder in 4-bit so it fits a free T4. The first run on a runtime installs a pinned diffusers build and downloads about 22 GB; later runs only generate. Model weights are under the Qwen Research License: research and non-commercial use only.",
+  "tags": [
+    "app",
+    "image",
+    "text-to-image",
+    "diffusion",
+    "gguf",
+    "huggingface"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "prompt",
+      "label": "Prompt",
+      "type": "text",
+      "required": true,
+      "default": "A vintage travel poster of a mountain village, bold lettering that reads \"VISIT THE ALPS\", flat illustration, warm colors",
+      "description": "What to draw. Put any text that should appear in the image in quotes."
+    },
+    {
+      "key": "negative_prompt",
+      "label": "Avoid",
+      "type": "text",
+      "default": "",
+      "description": "Optional. What the image should not contain (used when guidance is above 1)."
+    },
+    {
+      "key": "size",
+      "label": "Size",
+      "type": "select",
+      "options": [
+        "1024x1024",
+        "768x768",
+        "1152x896",
+        "896x1152",
+        "1280x720",
+        "720x1280"
+      ],
+      "default": "1024x1024"
+    },
+    {
+      "key": "quality",
+      "label": "Model quantization",
+      "type": "select",
+      "options": [
+        "Q4_K_M",
+        "Q6_K"
+      ],
+      "default": "Q4_K_M",
+      "description": "Q6_K is closer to the full model and a little slower. Switching reloads the transformer."
+    },
+    {
+      "key": "steps",
+      "label": "Steps",
+      "type": "integer",
+      "default": 20
+    },
+    {
+      "key": "guidance",
+      "label": "Guidance",
+      "type": "number",
+      "default": 6.0,
+      "description": "How strictly to follow the prompt. 1 turns guidance off and is about twice as fast."
+    },
+    {
+      "key": "num_images",
+      "label": "Images",
+      "type": "integer",
+      "default": 1
+    },
+    {
+      "key": "seed",
+      "label": "Seed",
+      "type": "integer",
+      "default": -1,
+      "description": "-1 picks a random seed. Each extra image uses the next seed."
+    },
+    {
+      "key": "hf_token",
+      "label": "Hugging Face token",
+      "type": "string",
+      "default": "",
+      "description": "Optional. A read-only token from huggingface.co/settings/tokens speeds up the first download (authenticated rate limits). It is sent only to Hugging Face, but like every input it is kept in this runtime's local history and exports, so use a read-only token."
+    }
+  ]
+}

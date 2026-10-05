@@ -61,6 +61,7 @@ images or tables instead of console text. [APPS.md](./APPS.md) is the format.
 | [Sentiment Analysis](./notebooks/hf-sentiment)          | Positive / negative scores per line, as a table           | CPU     |
 | [Breeze TTS 2](./notebooks/breeze-tts)                  | Voice design in plain words, or cloning from a clip (non-commercial weights) | T4+     |
 | [Z-Image](./notebooks/z-image)                          | Photorealistic text to image from a GGUF 6B model (Apache-2.0) | T4+     |
+| [Qwen-Image 2.1](./notebooks/qwen-image)                | Text to image with legible in-image text (non-commercial weights) | T4+     |
 
 ## Adding a notebook
 
