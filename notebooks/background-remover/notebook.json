@@ -1,0 +1,70 @@
+{
+  "slug": "background-remover",
+  "title": "Background Remover",
+  "description": "Cuts the subject out of a photo: a transparent PNG, or the subject on white, black, any colour or a blurred copy of the photo, plus the mask. Runs on a CPU runtime with BiRefNet or ISNet through rembg and ONNX Runtime, with optional alpha matting for hair and fur. Weights are Apache-2.0 (ISNet) and MIT (BiRefNet).",
+  "tags": [
+    "app",
+    "image",
+    "background-removal",
+    "segmentation",
+    "onnx"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "image",
+      "label": "Image",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "A PNG, JPEG or WebP photo."
+    },
+    {
+      "key": "model",
+      "label": "Model",
+      "type": "select",
+      "options": [
+        "birefnet-general-lite",
+        "isnet-general-use",
+        "birefnet-general",
+        "birefnet-portrait"
+      ],
+      "default": "birefnet-general-lite",
+      "description": "BiRefNet lite handles hard photos best for its speed. ISNet is about four times faster but can miss parts of dark or low-contrast subjects. Full BiRefNet is the most accurate and the slowest."
+    },
+    {
+      "key": "background",
+      "label": "Background",
+      "type": "select",
+      "options": [
+        "transparent",
+        "white",
+        "black",
+        "color",
+        "blur"
+      ],
+      "default": "transparent"
+    },
+    {
+      "key": "color",
+      "label": "Background colour",
+      "type": "string",
+      "default": "#1E90FF",
+      "description": "Hex colour, used when the background is set to a custom colour."
+    },
+    {
+      "key": "alpha_matting",
+      "label": "Refine hair and fur edges",
+      "type": "boolean",
+      "default": false,
+      "description": "Alpha matting: softer, more natural edges on hair and fur, and no halo of the old background. Adds about 10 seconds on a 5 MP photo."
+    },
+    {
+      "key": "crop_to_subject",
+      "label": "Crop to subject",
+      "type": "boolean",
+      "default": false,
+      "description": "Trim the empty space around the subject, leaving a small margin."
+    }
+  ]
+}

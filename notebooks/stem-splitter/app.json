@@ -1,0 +1,129 @@
+{
+  "format": "nzap-app/1",
+  "icon": "audio-waveform",
+  "category": "audio",
+  "tagline": "Remove vocals or split a song into vocals, drums, bass and other with Demucs.",
+  "runtime": {
+    "accelerator": "CPU",
+    "supported": [
+      "CPU",
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ]
+  },
+  "estimates": {
+    "setup": 10,
+    "run": 78,
+    "measuredOn": "CPU",
+    "runNote": "for a 60-second clip with htdemucs on 2 vCPUs (about 1.3 s per second of music, so a 4-minute song takes about 5 minutes)"
+  },
+  "runLabel": "Split",
+  "inputs": [
+    {
+      "param": "audio",
+      "widget": "file",
+      "accept": "audio/*,video/*",
+      "maxMb": 300
+    },
+    {
+      "param": "mode",
+      "widget": "segmented",
+      "labels": {
+        "vocals": "Vocals + instrumental",
+        "four": "Vocals, drums, bass, other"
+      }
+    },
+    {
+      "param": "model",
+      "widget": "radio",
+      "labels": {
+        "htdemucs": "HT Demucs · fast",
+        "htdemucs_ft": "HT Demucs fine-tuned · cleaner, 4x slower for four stems"
+      }
+    },
+    {
+      "param": "format",
+      "widget": "segmented",
+      "labels": {
+        "mp3": "MP3 (320 kbps)",
+        "wav": "WAV (16-bit)"
+      }
+    },
+    {
+      "param": "max_minutes",
+      "widget": "slider",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "min",
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "vocals",
+      "kind": "audio",
+      "label": "Vocals"
+    },
+    {
+      "id": "instrumental",
+      "kind": "audio",
+      "label": "Instrumental"
+    },
+    {
+      "id": "drums",
+      "kind": "audio",
+      "label": "Drums"
+    },
+    {
+      "id": "bass",
+      "kind": "audio",
+      "label": "Bass"
+    },
+    {
+      "id": "other",
+      "kind": "audio",
+      "label": "Other"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Karaoke track",
+      "values": {
+        "mode": "vocals",
+        "model": "htdemucs",
+        "format": "mp3"
+      }
+    },
+    {
+      "label": "Clean acapella",
+      "values": {
+        "mode": "vocals",
+        "model": "htdemucs_ft",
+        "format": "wav"
+      }
+    },
+    {
+      "label": "All four stems",
+      "values": {
+        "mode": "four",
+        "model": "htdemucs",
+        "format": "wav"
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "Demucs",
+      "url": "https://github.com/adefossez/demucs"
+    },
+    {
+      "label": "HT Demucs paper",
+      "url": "https://arxiv.org/abs/2211.08553"
+    }
+  ],
+  "license": "MIT"
+}

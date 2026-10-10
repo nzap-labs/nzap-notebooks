@@ -62,6 +62,12 @@ images or tables instead of console text. [APPS.md](./APPS.md) is the format.
 | [Breeze TTS 2](./notebooks/breeze-tts)                  | Voice design in plain words, or cloning from a clip (non-commercial weights) | T4+     |
 | [Z-Image](./notebooks/z-image)                          | Photorealistic text to image from a GGUF 6B model (Apache-2.0) | T4+     |
 | [Qwen-Image 2.1](./notebooks/qwen-image)                | Text to image with legible in-image text (non-commercial weights) | T4+     |
+| [Media Downloader](./notebooks/media-downloader)        | Video or audio from YouTube and 1,800+ sites (yt-dlp), with trimming | CPU     |
+| [Background Remover](./notebooks/background-remover)    | Transparent cut-outs, new colour or blurred background (BiRefNet / ISNet) | CPU     |
+| [Image Enhancer](./notebooks/image-enhancer)            | 2x / 4x upscaling (Real-ESRGAN) and face restoration (GFPGAN) | CPU, T4 |
+| [Speech to Text](./notebooks/speech-to-text)            | Transcripts and .srt / .vtt subtitles from audio or video (faster-whisper) | CPU, T4 |
+| [Vocal Remover & Stem Splitter](./notebooks/stem-splitter) | Vocals + instrumental, or four stems, from any song (Demucs) | CPU, T4 |
+| [MiniMax-H3](./notebooks/minimax-h3)                    | 5 s text-to-video with matching stereo sound; ~4 min first-run setup, ~3 min per clip (MiniMax H3 Community License) | TPU v5e-1 |
 
 ## Adding a notebook
 

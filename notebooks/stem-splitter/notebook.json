@@ -1,0 +1,60 @@
+{
+  "slug": "stem-splitter",
+  "title": "Vocal Remover & Stem Splitter",
+  "description": "Splits a song into vocals and instrumental (karaoke), or into vocals, drums, bass and other, with Meta's HT Demucs. Accepts audio or video files. Runs on a CPU runtime (a few minutes per song) and much faster on a GPU.",
+  "tags": [
+    "app",
+    "audio",
+    "music",
+    "source-separation",
+    "demucs"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "audio",
+      "label": "Song (audio or video file)",
+      "type": "string",
+      "required": true,
+      "description": "Any format ffmpeg reads: mp3, wav, flac, m4a, ogg, mp4, webm…"
+    },
+    {
+      "key": "mode",
+      "label": "Stems",
+      "type": "select",
+      "options": [
+        "vocals",
+        "four"
+      ],
+      "default": "vocals"
+    },
+    {
+      "key": "model",
+      "label": "Model",
+      "type": "select",
+      "options": [
+        "htdemucs",
+        "htdemucs_ft"
+      ],
+      "default": "htdemucs",
+      "description": "htdemucs_ft is a little cleaner; for four stems it runs four networks, about 4x slower."
+    },
+    {
+      "key": "format",
+      "label": "Format",
+      "type": "select",
+      "options": [
+        "mp3",
+        "wav"
+      ],
+      "default": "mp3"
+    },
+    {
+      "key": "max_minutes",
+      "label": "Max minutes",
+      "type": "number",
+      "default": 10,
+      "description": "Refuses longer tracks, so one long file cannot tie up a CPU runtime for an hour. 0 means no limit."
+    }
+  ]
+}

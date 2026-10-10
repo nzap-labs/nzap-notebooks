@@ -1,0 +1,78 @@
+{
+  "slug": "image-enhancer",
+  "title": "Image Enhancer (Upscale and Restore Faces)",
+  "description": "Upscales a photo or illustration 2x or 4x with Real-ESRGAN and can restore blurry faces with GFPGAN v1.4. Works on a CPU runtime (tiled, so memory stays bounded) and uses a GPU automatically when there is one. Gives the enhanced image plus a before/after comparison. Weights are BSD-3-Clause (Real-ESRGAN) and Apache-2.0 (GFPGAN).",
+  "tags": [
+    "app",
+    "image",
+    "upscaling",
+    "super-resolution",
+    "face-restoration"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "image",
+      "label": "Image",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "PNG, JPEG or WebP. Transparency is kept."
+    },
+    {
+      "key": "model",
+      "label": "Model",
+      "type": "select",
+      "options": [
+        "fast",
+        "photo",
+        "anime"
+      ],
+      "default": "fast",
+      "description": "Fast suits most photos and runs well on a CPU. Photo gives the finest detail but takes several times longer on a CPU. Anime is for drawings, anime and digital art."
+    },
+    {
+      "key": "scale",
+      "label": "Scale",
+      "type": "select",
+      "options": [
+        "2",
+        "4"
+      ],
+      "default": "4"
+    },
+    {
+      "key": "face_restore",
+      "label": "Restore faces",
+      "type": "boolean",
+      "default": false,
+      "description": "Rebuilds blurry faces with GFPGAN v1.4. The first use downloads 350 MB."
+    },
+    {
+      "key": "format",
+      "label": "Output format",
+      "type": "select",
+      "options": [
+        "png",
+        "jpg",
+        "webp"
+      ],
+      "default": "png",
+      "description": "PNG is lossless; JPEG and WebP (quality 95) are much smaller for large photos."
+    },
+    {
+      "key": "tile",
+      "label": "Tile size",
+      "type": "integer",
+      "default": 256,
+      "description": "The image is upscaled in tiles of this many input pixels to bound memory. 0 does it in one piece (fine on a GPU for small images)."
+    },
+    {
+      "key": "max_input_px",
+      "label": "Max input size",
+      "type": "integer",
+      "default": 1024,
+      "description": "Larger images are first scaled down to this many pixels on their longest side, so a run cannot take hours or run out of memory."
+    }
+  ]
+}

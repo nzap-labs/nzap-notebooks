@@ -1,0 +1,117 @@
+{
+  "format": "nzap-app/1",
+  "icon": "eraser",
+  "category": "image",
+  "tagline": "Cut the subject out of any photo: transparent PNG, a new colour or a blurred background.",
+  "runtime": {
+    "accelerator": "CPU",
+    "supported": [
+      "CPU",
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ]
+  },
+  "estimates": {
+    "setup": 55,
+    "run": 25,
+    "measuredOn": "CPU",
+    "runNote": "for a 5 MP photo with BiRefNet lite (ISNet: about 6 s; full BiRefNet: about 60 s)"
+  },
+  "runLabel": "Remove background",
+  "inputs": [
+    {
+      "param": "image",
+      "widget": "file",
+      "accept": "image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp",
+      "maxMb": 30
+    },
+    {
+      "param": "background",
+      "widget": "segmented",
+      "labels": {
+        "transparent": "Transparent",
+        "white": "White",
+        "black": "Black",
+        "color": "Colour",
+        "blur": "Blurred"
+      }
+    },
+    {
+      "param": "color",
+      "widget": "input",
+      "placeholder": "#1E90FF",
+      "maxLength": 7
+    },
+    {
+      "param": "model",
+      "widget": "select",
+      "labels": {
+        "birefnet-general-lite": "BiRefNet lite · recommended · MIT",
+        "isnet-general-use": "ISNet · fastest · Apache-2.0",
+        "birefnet-general": "BiRefNet · best, slow on CPU · MIT",
+        "birefnet-portrait": "BiRefNet portrait · people, slow on CPU · MIT"
+      }
+    },
+    {
+      "param": "alpha_matting",
+      "widget": "switch"
+    },
+    {
+      "param": "crop_to_subject",
+      "widget": "switch"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "image",
+      "kind": "image",
+      "label": "Result"
+    },
+    {
+      "id": "mask",
+      "kind": "image",
+      "label": "Mask"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Transparent PNG",
+      "values": {
+        "background": "transparent"
+      }
+    },
+    {
+      "label": "Product shot on white",
+      "values": {
+        "background": "white",
+        "crop_to_subject": true
+      }
+    },
+    {
+      "label": "Portrait, soft hair",
+      "values": {
+        "background": "blur",
+        "model": "birefnet-portrait",
+        "alpha_matting": true
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "rembg",
+      "url": "https://github.com/danielgatis/rembg"
+    },
+    {
+      "label": "ISNet (DIS)",
+      "url": "https://github.com/xuebinqin/DIS"
+    },
+    {
+      "label": "BiRefNet",
+      "url": "https://github.com/ZhengPeng7/BiRefNet"
+    }
+  ],
+  "license": "Apache-2.0 (ISNet) and MIT (BiRefNet)"
+}

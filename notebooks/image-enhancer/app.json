@@ -1,0 +1,134 @@
+{
+  "format": "nzap-app/1",
+  "icon": "wand-sparkles",
+  "category": "image",
+  "tagline": "Upscale photos and art 2x or 4x and restore blurry faces, even on a free CPU runtime.",
+  "runtime": {
+    "accelerator": "CPU",
+    "supported": [
+      "CPU",
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ]
+  },
+  "estimates": {
+    "setup": 15,
+    "run": 10,
+    "measuredOn": "CPU",
+    "runNote": "to upscale a 500x375 photo 4x with Fast. Restore faces adds about 7 s per face (and 7 s of setup once); Anime is about 5x and Photo about 10x slower on a CPU"
+  },
+  "runLabel": "Enhance image",
+  "inputs": [
+    {
+      "param": "image",
+      "widget": "file",
+      "accept": "image/png,image/jpeg,image/webp,image/bmp,image/tiff",
+      "maxMb": 30
+    },
+    {
+      "param": "model",
+      "widget": "segmented",
+      "labels": {
+        "fast": "Fast · photos",
+        "photo": "Photo · finest detail, ~10x slower on CPU",
+        "anime": "Anime and art"
+      }
+    },
+    {
+      "param": "scale",
+      "widget": "segmented",
+      "labels": {
+        "2": "2x",
+        "4": "4x"
+      }
+    },
+    {
+      "param": "face_restore",
+      "widget": "switch"
+    },
+    {
+      "param": "format",
+      "widget": "segmented",
+      "labels": {
+        "png": "PNG",
+        "jpg": "JPEG",
+        "webp": "WebP"
+      },
+      "section": "Advanced"
+    },
+    {
+      "param": "tile",
+      "widget": "number",
+      "min": 0,
+      "max": 2048,
+      "step": 32,
+      "unit": "px",
+      "section": "Advanced"
+    },
+    {
+      "param": "max_input_px",
+      "widget": "slider",
+      "min": 256,
+      "max": 2048,
+      "step": 64,
+      "unit": "px",
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "image",
+      "kind": "image",
+      "label": "Enhanced image"
+    },
+    {
+      "id": "compare",
+      "kind": "image",
+      "label": "Before / after"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Old portrait",
+      "values": {
+        "model": "fast",
+        "scale": "4",
+        "face_restore": true
+      }
+    },
+    {
+      "label": "Landscape, finest detail",
+      "values": {
+        "model": "photo",
+        "scale": "2",
+        "face_restore": false
+      }
+    },
+    {
+      "label": "Anime or illustration",
+      "values": {
+        "model": "anime",
+        "scale": "4",
+        "face_restore": false
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "Real-ESRGAN",
+      "url": "https://github.com/xinntao/Real-ESRGAN"
+    },
+    {
+      "label": "GFPGAN",
+      "url": "https://github.com/TencentARC/GFPGAN"
+    },
+    {
+      "label": "spandrel",
+      "url": "https://github.com/chaiNNer-org/spandrel"
+    }
+  ],
+  "license": "BSD-3-Clause (Real-ESRGAN weights), Apache-2.0 (GFPGAN v1.4 weights), MIT (YuNet face detector)"
+}

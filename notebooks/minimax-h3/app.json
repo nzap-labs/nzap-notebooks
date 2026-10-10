@@ -1,0 +1,112 @@
+{
+  "format": "nzap-app/1",
+  "icon": "clapperboard",
+  "category": "video",
+  "tagline": "A sentence in, a 5-second video with matching sound out. TPU v5e-1 required.",
+  "runtime": {
+    "accelerator": "V5E1",
+    "supported": [
+      "V5E1"
+    ],
+    "highMem": true
+  },
+  "estimates": {
+    "setup": 240,
+    "run": 195,
+    "measuredOn": "V5E1",
+    "runNote": "per 5.2 s clip at 672x384 with stereo audio; the first run on a fresh TPU adds about 4 minutes to install JAX and download 28 GB of weights"
+  },
+  "runLabel": "Generate video",
+  "inputs": [
+    {
+      "param": "prompt",
+      "widget": "textarea",
+      "rows": 4,
+      "maxLength": 2000,
+      "placeholder": "Subject, motion, setting, light, and what it sounds like."
+    },
+    {
+      "param": "size",
+      "widget": "segmented",
+      "labels": {
+        "672x384": "Landscape 672x384",
+        "384x672": "Portrait 384x672",
+        "512x512": "Square 512"
+      }
+    },
+    {
+      "param": "seed",
+      "widget": "number",
+      "min": 0,
+      "step": 1
+    },
+    {
+      "param": "steps",
+      "widget": "segmented",
+      "labels": {
+        "8": "8 steps (best)",
+        "4": "4 steps (faster)"
+      },
+      "section": "Advanced"
+    },
+    {
+      "param": "lora_strength",
+      "widget": "slider",
+      "min": 0.5,
+      "max": 1.5,
+      "step": 0.05,
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "video",
+      "kind": "video",
+      "label": "Video with sound"
+    },
+    {
+      "id": "details",
+      "kind": "table",
+      "label": "Details and timings"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Puppy in a meadow",
+      "values": {
+        "prompt": "a golden retriever puppy running through a sunny meadow of wildflowers toward the camera, happy barking, birds singing",
+        "seed": 3
+      }
+    },
+    {
+      "label": "Red panda in mist",
+      "values": {
+        "prompt": "a red panda stepping along a mossy log in a misty forest",
+        "seed": 0
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "MiniMax-H3 model card",
+      "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3"
+    },
+    {
+      "label": "GGUF weights",
+      "url": "https://huggingface.co/unsloth/MiniMax-H3-GGUF"
+    },
+    {
+      "label": "Turbo LoRA",
+      "url": "https://huggingface.co/Comfy-Org/MiniMax-H3"
+    },
+    {
+      "label": "License",
+      "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/LICENSE"
+    },
+    {
+      "label": "Pipeline source",
+      "url": "https://github.com/Rahulsingh1939/inference_h3"
+    }
+  ],
+  "license": "MiniMax H3 Community License: commercial use only outside the EU, UK, South Korea and US; over $20M yearly revenue needs MiniMax's permission"
+}

@@ -1,0 +1,162 @@
+{
+  "format": "nzap-app/1",
+  "icon": "download",
+  "category": "video",
+  "tagline": "Save a video or its audio from YouTube and 1,800+ other sites, with optional trimming.",
+  "runtime": {
+    "accelerator": "CPU",
+    "supported": [
+      "CPU",
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ]
+  },
+  "estimates": {
+    "setup": 10,
+    "run": 6,
+    "measuredOn": "CPU",
+    "runNote": "for a 10-minute 720p video; an exact video trim re-encodes (about 50 s for 30 s of 1080p)"
+  },
+  "runLabel": "Download",
+  "inputs": [
+    {
+      "param": "url",
+      "widget": "input",
+      "placeholder": "https://www.youtube.com/watch?v=…",
+      "maxLength": 2000
+    },
+    {
+      "param": "mode",
+      "widget": "segmented",
+      "labels": {
+        "video": "Video (MP4)",
+        "audio": "Audio only"
+      }
+    },
+    {
+      "param": "quality",
+      "widget": "select",
+      "labels": {
+        "best": "Best available",
+        "1080p": "1080p",
+        "720p": "720p",
+        "480p": "480p",
+        "360p": "360p"
+      }
+    },
+    {
+      "param": "audio_format",
+      "widget": "segmented",
+      "labels": {
+        "mp3": "MP3",
+        "m4a": "M4A (AAC)",
+        "opus": "Opus",
+        "wav": "WAV",
+        "flac": "FLAC"
+      }
+    },
+    {
+      "param": "audio_bitrate",
+      "widget": "select",
+      "labels": {
+        "96": "96 kbps",
+        "128": "128 kbps",
+        "192": "192 kbps",
+        "256": "256 kbps",
+        "320": "320 kbps"
+      }
+    },
+    {
+      "param": "start",
+      "widget": "input",
+      "placeholder": "0:00",
+      "maxLength": 12,
+      "section": "Trim"
+    },
+    {
+      "param": "end",
+      "widget": "input",
+      "placeholder": "end",
+      "maxLength": 12,
+      "section": "Trim"
+    },
+    {
+      "param": "playlist",
+      "widget": "switch",
+      "section": "Advanced"
+    },
+    {
+      "param": "max_items",
+      "widget": "number",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "video",
+      "kind": "video",
+      "label": "Video"
+    },
+    {
+      "id": "audio",
+      "kind": "audio",
+      "label": "Audio"
+    },
+    {
+      "id": "archive",
+      "kind": "file",
+      "label": "Playlist (zip)"
+    },
+    {
+      "id": "details",
+      "kind": "table",
+      "label": "Details"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Big Buck Bunny, 720p",
+      "values": {
+        "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "mode": "video",
+        "quality": "720p"
+      }
+    },
+    {
+      "label": "30-second clip",
+      "values": {
+        "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "mode": "video",
+        "quality": "1080p",
+        "start": "1:00",
+        "end": "1:30"
+      }
+    },
+    {
+      "label": "Soundtrack as MP3",
+      "values": {
+        "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+        "mode": "audio",
+        "audio_format": "mp3",
+        "audio_bitrate": "192"
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "yt-dlp",
+      "url": "https://github.com/yt-dlp/yt-dlp"
+    },
+    {
+      "label": "Supported sites",
+      "url": "https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
+    }
+  ],
+  "license": "yt-dlp is Unlicense (public domain). You are responsible for having the rights to what you download."
+}

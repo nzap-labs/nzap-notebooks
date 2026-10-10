@@ -1,0 +1,103 @@
+{
+  "slug": "media-downloader",
+  "title": "Media Downloader (yt-dlp)",
+  "description": "Downloads a video as a browser-friendly MP4 (H.264/AAC) or just its audio (MP3, M4A, Opus, WAV or FLAC) from YouTube and the other sites yt-dlp supports, with optional trimming and playlists. Runs on a CPU runtime. Only download content you have the right to download.",
+  "tags": [
+    "app",
+    "video",
+    "audio",
+    "download",
+    "yt-dlp"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "url",
+      "label": "Link",
+      "type": "string",
+      "required": true,
+      "default": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+      "description": "A video page, playlist or direct media URL."
+    },
+    {
+      "key": "mode",
+      "label": "Download",
+      "type": "select",
+      "options": [
+        "video",
+        "audio"
+      ],
+      "default": "video"
+    },
+    {
+      "key": "quality",
+      "label": "Video quality",
+      "type": "select",
+      "options": [
+        "best",
+        "1080p",
+        "720p",
+        "480p",
+        "360p"
+      ],
+      "default": "720p",
+      "description": "The highest resolution to fetch; H.264 sources are preferred so nothing needs re-encoding. Ignored for audio."
+    },
+    {
+      "key": "audio_format",
+      "label": "Audio format",
+      "type": "select",
+      "options": [
+        "mp3",
+        "m4a",
+        "opus",
+        "wav",
+        "flac"
+      ],
+      "default": "mp3",
+      "description": "Only used when downloading audio."
+    },
+    {
+      "key": "audio_bitrate",
+      "label": "Audio bitrate (kbps)",
+      "type": "select",
+      "options": [
+        "96",
+        "128",
+        "192",
+        "256",
+        "320"
+      ],
+      "default": "192",
+      "description": "For MP3, M4A and Opus; WAV and FLAC are lossless."
+    },
+    {
+      "key": "start",
+      "label": "Start at",
+      "type": "string",
+      "default": "",
+      "description": "Optional trim start, such as 1:30 or 90. Leave empty for the beginning."
+    },
+    {
+      "key": "end",
+      "label": "End at",
+      "type": "string",
+      "default": "",
+      "description": "Optional trim end, such as 2:45. Leave empty for the end."
+    },
+    {
+      "key": "playlist",
+      "label": "Download the playlist",
+      "type": "boolean",
+      "default": false,
+      "description": "When the link is a playlist (or a video inside one), download several items as a zip."
+    },
+    {
+      "key": "max_items",
+      "label": "Playlist items (max)",
+      "type": "integer",
+      "default": 10,
+      "description": "How many playlist items to download, 1 to 50."
+    }
+  ]
+}

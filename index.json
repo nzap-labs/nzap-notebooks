@@ -2,6 +2,195 @@
   "version": 1,
   "notebooks": [
     {
+      "slug": "background-remover",
+      "title": "Background Remover",
+      "description": "Cuts the subject out of a photo: a transparent PNG, or the subject on white, black, any colour or a blurred copy of the photo, plus the mask. Runs on a CPU runtime with BiRefNet or ISNet through rembg and ONNX Runtime, with optional alpha matting for hair and fur. Weights are Apache-2.0 (ISNet) and MIT (BiRefNet).",
+      "tags": [
+        "app",
+        "image",
+        "background-removal",
+        "segmentation",
+        "onnx"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "string",
+          "required": true,
+          "default": "",
+          "description": "A PNG, JPEG or WebP photo."
+        },
+        {
+          "key": "model",
+          "label": "Model",
+          "type": "select",
+          "options": [
+            "birefnet-general-lite",
+            "isnet-general-use",
+            "birefnet-general",
+            "birefnet-portrait"
+          ],
+          "default": "birefnet-general-lite",
+          "description": "BiRefNet lite handles hard photos best for its speed. ISNet is about four times faster but can miss parts of dark or low-contrast subjects. Full BiRefNet is the most accurate and the slowest."
+        },
+        {
+          "key": "background",
+          "label": "Background",
+          "type": "select",
+          "options": [
+            "transparent",
+            "white",
+            "black",
+            "color",
+            "blur"
+          ],
+          "default": "transparent"
+        },
+        {
+          "key": "color",
+          "label": "Background colour",
+          "type": "string",
+          "default": "#1E90FF",
+          "description": "Hex colour, used when the background is set to a custom colour."
+        },
+        {
+          "key": "alpha_matting",
+          "label": "Refine hair and fur edges",
+          "type": "boolean",
+          "default": false,
+          "description": "Alpha matting: softer, more natural edges on hair and fur, and no halo of the old background. Adds about 10 seconds on a 5 MP photo."
+        },
+        {
+          "key": "crop_to_subject",
+          "label": "Crop to subject",
+          "type": "boolean",
+          "default": false,
+          "description": "Trim the empty space around the subject, leaving a small margin."
+        }
+      ],
+      "source": "notebooks/background-remover/notebook.py",
+      "sha256": "89e0cb845091c8df1fd21679c83161ff8740b4ce76bfcc90dc255243aaf131db",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "eraser",
+        "category": "image",
+        "tagline": "Cut the subject out of any photo: transparent PNG, a new colour or a blurred background.",
+        "runtime": {
+          "accelerator": "CPU",
+          "supported": [
+            "CPU",
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ]
+        },
+        "estimates": {
+          "setup": 55,
+          "run": 25,
+          "measuredOn": "CPU",
+          "runNote": "for a 5 MP photo with BiRefNet lite (ISNet: about 6 s; full BiRefNet: about 60 s)"
+        },
+        "runLabel": "Remove background",
+        "inputs": [
+          {
+            "param": "image",
+            "widget": "file",
+            "accept": "image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp",
+            "maxMb": 30
+          },
+          {
+            "param": "background",
+            "widget": "segmented",
+            "labels": {
+              "transparent": "Transparent",
+              "white": "White",
+              "black": "Black",
+              "color": "Colour",
+              "blur": "Blurred"
+            }
+          },
+          {
+            "param": "color",
+            "widget": "input",
+            "placeholder": "#1E90FF",
+            "maxLength": 7
+          },
+          {
+            "param": "model",
+            "widget": "select",
+            "labels": {
+              "birefnet-general-lite": "BiRefNet lite · recommended · MIT",
+              "isnet-general-use": "ISNet · fastest · Apache-2.0",
+              "birefnet-general": "BiRefNet · best, slow on CPU · MIT",
+              "birefnet-portrait": "BiRefNet portrait · people, slow on CPU · MIT"
+            }
+          },
+          {
+            "param": "alpha_matting",
+            "widget": "switch"
+          },
+          {
+            "param": "crop_to_subject",
+            "widget": "switch"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "image",
+            "kind": "image",
+            "label": "Result"
+          },
+          {
+            "id": "mask",
+            "kind": "image",
+            "label": "Mask"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Transparent PNG",
+            "values": {
+              "background": "transparent"
+            }
+          },
+          {
+            "label": "Product shot on white",
+            "values": {
+              "background": "white",
+              "crop_to_subject": true
+            }
+          },
+          {
+            "label": "Portrait, soft hair",
+            "values": {
+              "background": "blur",
+              "model": "birefnet-portrait",
+              "alpha_matting": true
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "rembg",
+            "url": "https://github.com/danielgatis/rembg"
+          },
+          {
+            "label": "ISNet (DIS)",
+            "url": "https://github.com/xuebinqin/DIS"
+          },
+          {
+            "label": "BiRefNet",
+            "url": "https://github.com/ZhengPeng7/BiRefNet"
+          }
+        ],
+        "license": "Apache-2.0 (ISNet) and MIT (BiRefNet)"
+      }
+    },
+    {
       "slug": "breeze-tts",
       "title": "Breeze TTS 2 (Voice Design & Cloning)",
       "description": "Expressive 3B text to speech in English and Mandarin. Describe the voice you want in plain words, or clone one from a short reference clip. Supports vocal events like (sigh), (laugh) and (clears throat). Needs a GPU with at least 12 GB: on a free T4 it generates about 6x slower than real time, and faster on L4 or A100. Model weights are licensed for research and non-commercial use only.",
@@ -194,6 +383,220 @@
       ],
       "source": "notebooks/gpu-check/notebook.py",
       "sha256": "2422f2c3a3c9ebe22fd88d88a29c5ad412741f46fbccc7d0de6196a0f26924f1"
+    },
+    {
+      "slug": "image-enhancer",
+      "title": "Image Enhancer (Upscale and Restore Faces)",
+      "description": "Upscales a photo or illustration 2x or 4x with Real-ESRGAN and can restore blurry faces with GFPGAN v1.4. Works on a CPU runtime (tiled, so memory stays bounded) and uses a GPU automatically when there is one. Gives the enhanced image plus a before/after comparison. Weights are BSD-3-Clause (Real-ESRGAN) and Apache-2.0 (GFPGAN).",
+      "tags": [
+        "app",
+        "image",
+        "upscaling",
+        "super-resolution",
+        "face-restoration"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "image",
+          "label": "Image",
+          "type": "string",
+          "required": true,
+          "default": "",
+          "description": "PNG, JPEG or WebP. Transparency is kept."
+        },
+        {
+          "key": "model",
+          "label": "Model",
+          "type": "select",
+          "options": [
+            "fast",
+            "photo",
+            "anime"
+          ],
+          "default": "fast",
+          "description": "Fast suits most photos and runs well on a CPU. Photo gives the finest detail but takes several times longer on a CPU. Anime is for drawings, anime and digital art."
+        },
+        {
+          "key": "scale",
+          "label": "Scale",
+          "type": "select",
+          "options": [
+            "2",
+            "4"
+          ],
+          "default": "4"
+        },
+        {
+          "key": "face_restore",
+          "label": "Restore faces",
+          "type": "boolean",
+          "default": false,
+          "description": "Rebuilds blurry faces with GFPGAN v1.4. The first use downloads 350 MB."
+        },
+        {
+          "key": "format",
+          "label": "Output format",
+          "type": "select",
+          "options": [
+            "png",
+            "jpg",
+            "webp"
+          ],
+          "default": "png",
+          "description": "PNG is lossless; JPEG and WebP (quality 95) are much smaller for large photos."
+        },
+        {
+          "key": "tile",
+          "label": "Tile size",
+          "type": "integer",
+          "default": 256,
+          "description": "The image is upscaled in tiles of this many input pixels to bound memory. 0 does it in one piece (fine on a GPU for small images)."
+        },
+        {
+          "key": "max_input_px",
+          "label": "Max input size",
+          "type": "integer",
+          "default": 1024,
+          "description": "Larger images are first scaled down to this many pixels on their longest side, so a run cannot take hours or run out of memory."
+        }
+      ],
+      "source": "notebooks/image-enhancer/notebook.py",
+      "sha256": "59f878b38aa2f0f4d1945e638b38bb2c5508b55f578e7631116424799dd7feff",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "wand-sparkles",
+        "category": "image",
+        "tagline": "Upscale photos and art 2x or 4x and restore blurry faces, even on a free CPU runtime.",
+        "runtime": {
+          "accelerator": "CPU",
+          "supported": [
+            "CPU",
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ]
+        },
+        "estimates": {
+          "setup": 15,
+          "run": 10,
+          "measuredOn": "CPU",
+          "runNote": "to upscale a 500x375 photo 4x with Fast. Restore faces adds about 7 s per face (and 7 s of setup once); Anime is about 5x and Photo about 10x slower on a CPU"
+        },
+        "runLabel": "Enhance image",
+        "inputs": [
+          {
+            "param": "image",
+            "widget": "file",
+            "accept": "image/png,image/jpeg,image/webp,image/bmp,image/tiff",
+            "maxMb": 30
+          },
+          {
+            "param": "model",
+            "widget": "segmented",
+            "labels": {
+              "fast": "Fast · photos",
+              "photo": "Photo · finest detail, ~10x slower on CPU",
+              "anime": "Anime and art"
+            }
+          },
+          {
+            "param": "scale",
+            "widget": "segmented",
+            "labels": {
+              "2": "2x",
+              "4": "4x"
+            }
+          },
+          {
+            "param": "face_restore",
+            "widget": "switch"
+          },
+          {
+            "param": "format",
+            "widget": "segmented",
+            "labels": {
+              "png": "PNG",
+              "jpg": "JPEG",
+              "webp": "WebP"
+            },
+            "section": "Advanced"
+          },
+          {
+            "param": "tile",
+            "widget": "number",
+            "min": 0,
+            "max": 2048,
+            "step": 32,
+            "unit": "px",
+            "section": "Advanced"
+          },
+          {
+            "param": "max_input_px",
+            "widget": "slider",
+            "min": 256,
+            "max": 2048,
+            "step": 64,
+            "unit": "px",
+            "section": "Advanced"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "image",
+            "kind": "image",
+            "label": "Enhanced image"
+          },
+          {
+            "id": "compare",
+            "kind": "image",
+            "label": "Before / after"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Old portrait",
+            "values": {
+              "model": "fast",
+              "scale": "4",
+              "face_restore": true
+            }
+          },
+          {
+            "label": "Landscape, finest detail",
+            "values": {
+              "model": "photo",
+              "scale": "2",
+              "face_restore": false
+            }
+          },
+          {
+            "label": "Anime or illustration",
+            "values": {
+              "model": "anime",
+              "scale": "4",
+              "face_restore": false
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "Real-ESRGAN",
+            "url": "https://github.com/xinntao/Real-ESRGAN"
+          },
+          {
+            "label": "GFPGAN",
+            "url": "https://github.com/TencentARC/GFPGAN"
+          },
+          {
+            "label": "spandrel",
+            "url": "https://github.com/chaiNNer-org/spandrel"
+          }
+        ],
+        "license": "BSD-3-Clause (Real-ESRGAN weights), Apache-2.0 (GFPGAN v1.4 weights), MIT (YuNet face detector)"
+      }
     },
     {
       "slug": "kokoro-tts",
@@ -463,6 +866,447 @@
           }
         ],
         "license": "Apache-2.0"
+      }
+    },
+    {
+      "slug": "media-downloader",
+      "title": "Media Downloader (yt-dlp)",
+      "description": "Downloads a video as a browser-friendly MP4 (H.264/AAC) or just its audio (MP3, M4A, Opus, WAV or FLAC) from YouTube and the other sites yt-dlp supports, with optional trimming and playlists. Runs on a CPU runtime. Only download content you have the right to download.",
+      "tags": [
+        "app",
+        "video",
+        "audio",
+        "download",
+        "yt-dlp"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "url",
+          "label": "Link",
+          "type": "string",
+          "required": true,
+          "default": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+          "description": "A video page, playlist or direct media URL."
+        },
+        {
+          "key": "mode",
+          "label": "Download",
+          "type": "select",
+          "options": [
+            "video",
+            "audio"
+          ],
+          "default": "video"
+        },
+        {
+          "key": "quality",
+          "label": "Video quality",
+          "type": "select",
+          "options": [
+            "best",
+            "1080p",
+            "720p",
+            "480p",
+            "360p"
+          ],
+          "default": "720p",
+          "description": "The highest resolution to fetch; H.264 sources are preferred so nothing needs re-encoding. Ignored for audio."
+        },
+        {
+          "key": "audio_format",
+          "label": "Audio format",
+          "type": "select",
+          "options": [
+            "mp3",
+            "m4a",
+            "opus",
+            "wav",
+            "flac"
+          ],
+          "default": "mp3",
+          "description": "Only used when downloading audio."
+        },
+        {
+          "key": "audio_bitrate",
+          "label": "Audio bitrate (kbps)",
+          "type": "select",
+          "options": [
+            "96",
+            "128",
+            "192",
+            "256",
+            "320"
+          ],
+          "default": "192",
+          "description": "For MP3, M4A and Opus; WAV and FLAC are lossless."
+        },
+        {
+          "key": "start",
+          "label": "Start at",
+          "type": "string",
+          "default": "",
+          "description": "Optional trim start, such as 1:30 or 90. Leave empty for the beginning."
+        },
+        {
+          "key": "end",
+          "label": "End at",
+          "type": "string",
+          "default": "",
+          "description": "Optional trim end, such as 2:45. Leave empty for the end."
+        },
+        {
+          "key": "playlist",
+          "label": "Download the playlist",
+          "type": "boolean",
+          "default": false,
+          "description": "When the link is a playlist (or a video inside one), download several items as a zip."
+        },
+        {
+          "key": "max_items",
+          "label": "Playlist items (max)",
+          "type": "integer",
+          "default": 10,
+          "description": "How many playlist items to download, 1 to 50."
+        }
+      ],
+      "source": "notebooks/media-downloader/notebook.py",
+      "sha256": "2992b6e543e3d0b5c0cb56873eab18c37e7c9c10b6a987eccedda3be165f31fa",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "download",
+        "category": "video",
+        "tagline": "Save a video or its audio from YouTube and 1,800+ other sites, with optional trimming.",
+        "runtime": {
+          "accelerator": "CPU",
+          "supported": [
+            "CPU",
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ]
+        },
+        "estimates": {
+          "setup": 10,
+          "run": 6,
+          "measuredOn": "CPU",
+          "runNote": "for a 10-minute 720p video; an exact video trim re-encodes (about 50 s for 30 s of 1080p)"
+        },
+        "runLabel": "Download",
+        "inputs": [
+          {
+            "param": "url",
+            "widget": "input",
+            "placeholder": "https://www.youtube.com/watch?v=…",
+            "maxLength": 2000
+          },
+          {
+            "param": "mode",
+            "widget": "segmented",
+            "labels": {
+              "video": "Video (MP4)",
+              "audio": "Audio only"
+            }
+          },
+          {
+            "param": "quality",
+            "widget": "select",
+            "labels": {
+              "best": "Best available",
+              "1080p": "1080p",
+              "720p": "720p",
+              "480p": "480p",
+              "360p": "360p"
+            }
+          },
+          {
+            "param": "audio_format",
+            "widget": "segmented",
+            "labels": {
+              "mp3": "MP3",
+              "m4a": "M4A (AAC)",
+              "opus": "Opus",
+              "wav": "WAV",
+              "flac": "FLAC"
+            }
+          },
+          {
+            "param": "audio_bitrate",
+            "widget": "select",
+            "labels": {
+              "96": "96 kbps",
+              "128": "128 kbps",
+              "192": "192 kbps",
+              "256": "256 kbps",
+              "320": "320 kbps"
+            }
+          },
+          {
+            "param": "start",
+            "widget": "input",
+            "placeholder": "0:00",
+            "maxLength": 12,
+            "section": "Trim"
+          },
+          {
+            "param": "end",
+            "widget": "input",
+            "placeholder": "end",
+            "maxLength": 12,
+            "section": "Trim"
+          },
+          {
+            "param": "playlist",
+            "widget": "switch",
+            "section": "Advanced"
+          },
+          {
+            "param": "max_items",
+            "widget": "number",
+            "min": 1,
+            "max": 50,
+            "step": 1,
+            "section": "Advanced"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "video",
+            "kind": "video",
+            "label": "Video"
+          },
+          {
+            "id": "audio",
+            "kind": "audio",
+            "label": "Audio"
+          },
+          {
+            "id": "archive",
+            "kind": "file",
+            "label": "Playlist (zip)"
+          },
+          {
+            "id": "details",
+            "kind": "table",
+            "label": "Details"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Big Buck Bunny, 720p",
+            "values": {
+              "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+              "mode": "video",
+              "quality": "720p"
+            }
+          },
+          {
+            "label": "30-second clip",
+            "values": {
+              "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+              "mode": "video",
+              "quality": "1080p",
+              "start": "1:00",
+              "end": "1:30"
+            }
+          },
+          {
+            "label": "Soundtrack as MP3",
+            "values": {
+              "url": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+              "mode": "audio",
+              "audio_format": "mp3",
+              "audio_bitrate": "192"
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "yt-dlp",
+            "url": "https://github.com/yt-dlp/yt-dlp"
+          },
+          {
+            "label": "Supported sites",
+            "url": "https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md"
+          }
+        ],
+        "license": "yt-dlp is Unlicense (public domain). You are responsible for having the rights to what you download."
+      }
+    },
+    {
+      "slug": "minimax-h3",
+      "title": "MiniMax-H3 Text to Video + Audio (TPU)",
+      "description": "Turns a sentence into a 5-second video (124 frames at 24 fps, 672x384) with matching stereo sound, using MiniMax-H3 (2-bit GGUF) and Comfy-Org's 8-step turbo LoRA, in JAX on a Colab TPU. Needs a TPU v5e-1 runtime: it does not run on CPU or GPU. First run on a fresh TPU: about 4 minutes of setup (installs JAX for TPU, downloads about 28 GB of weights; the two GGUFs go into RAM) before generating. Each clip then takes about 3 minutes 15 seconds: about 95 s to load the models from RAM, 77 s for the 8 denoising steps, and 40 s to decode video and audio. Weights: MiniMax H3 Community License (commercial use only outside the EU, UK, South Korea and US, and with permission above $20M yearly revenue).",
+      "tags": [
+        "app",
+        "video",
+        "audio",
+        "text-to-video",
+        "tpu",
+        "jax",
+        "gguf",
+        "huggingface"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "prompt",
+          "label": "Prompt",
+          "type": "text",
+          "required": true,
+          "default": "a golden retriever puppy running through a sunny meadow of wildflowers toward the camera, happy barking, birds singing",
+          "description": "Describe the scene, the motion and the sound. One clear subject works best."
+        },
+        {
+          "key": "size",
+          "label": "Size",
+          "type": "select",
+          "options": [
+            "672x384",
+            "384x672",
+            "512x512"
+          ],
+          "default": "672x384"
+        },
+        {
+          "key": "steps",
+          "label": "Turbo steps",
+          "type": "select",
+          "options": [
+            "8",
+            "4"
+          ],
+          "default": "8",
+          "description": "8 steps is the tested setting. 4 steps uses the 768p-trained 4-step LoRA and is about 20 s faster."
+        },
+        {
+          "key": "seed",
+          "label": "Seed",
+          "type": "integer",
+          "default": 3
+        },
+        {
+          "key": "lora_strength",
+          "label": "Turbo LoRA strength",
+          "type": "number",
+          "default": 1.0
+        }
+      ],
+      "source": "notebooks/minimax-h3/notebook.py",
+      "sha256": "9fdd6101f2da69d74d8eac559f653458a347b02c3ba9a4bdfbe9b5ee8b2937a9",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "clapperboard",
+        "category": "video",
+        "tagline": "A sentence in, a 5-second video with matching sound out. TPU v5e-1 required.",
+        "runtime": {
+          "accelerator": "V5E1",
+          "supported": [
+            "V5E1"
+          ],
+          "highMem": true
+        },
+        "estimates": {
+          "setup": 240,
+          "run": 195,
+          "measuredOn": "V5E1",
+          "runNote": "per 5.2 s clip at 672x384 with stereo audio; the first run on a fresh TPU adds about 4 minutes to install JAX and download 28 GB of weights"
+        },
+        "runLabel": "Generate video",
+        "inputs": [
+          {
+            "param": "prompt",
+            "widget": "textarea",
+            "rows": 4,
+            "maxLength": 2000,
+            "placeholder": "Subject, motion, setting, light, and what it sounds like."
+          },
+          {
+            "param": "size",
+            "widget": "segmented",
+            "labels": {
+              "672x384": "Landscape 672x384",
+              "384x672": "Portrait 384x672",
+              "512x512": "Square 512"
+            }
+          },
+          {
+            "param": "seed",
+            "widget": "number",
+            "min": 0,
+            "step": 1
+          },
+          {
+            "param": "steps",
+            "widget": "segmented",
+            "labels": {
+              "8": "8 steps (best)",
+              "4": "4 steps (faster)"
+            },
+            "section": "Advanced"
+          },
+          {
+            "param": "lora_strength",
+            "widget": "slider",
+            "min": 0.5,
+            "max": 1.5,
+            "step": 0.05,
+            "section": "Advanced"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "video",
+            "kind": "video",
+            "label": "Video with sound"
+          },
+          {
+            "id": "details",
+            "kind": "table",
+            "label": "Details and timings"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Puppy in a meadow",
+            "values": {
+              "prompt": "a golden retriever puppy running through a sunny meadow of wildflowers toward the camera, happy barking, birds singing",
+              "seed": 3
+            }
+          },
+          {
+            "label": "Red panda in mist",
+            "values": {
+              "prompt": "a red panda stepping along a mossy log in a misty forest",
+              "seed": 0
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "MiniMax-H3 model card",
+            "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3"
+          },
+          {
+            "label": "GGUF weights",
+            "url": "https://huggingface.co/unsloth/MiniMax-H3-GGUF"
+          },
+          {
+            "label": "Turbo LoRA",
+            "url": "https://huggingface.co/Comfy-Org/MiniMax-H3"
+          },
+          {
+            "label": "License",
+            "url": "https://huggingface.co/MiniMaxAI/MiniMax-H3/blob/main/LICENSE"
+          },
+          {
+            "label": "Pipeline source",
+            "url": "https://github.com/Rahulsingh1939/inference_h3"
+          }
+        ],
+        "license": "MiniMax H3 Community License: commercial use only outside the EU, UK, South Korea and US; over $20M yearly revenue needs MiniMax's permission"
       }
     },
     {
@@ -805,6 +1649,252 @@
       }
     },
     {
+      "slug": "speech-to-text",
+      "title": "Speech to Text",
+      "description": "Transcribes or translates an audio or video file with faster-whisper (OpenAI Whisper on CTranslate2) and returns the transcript, timed segments and ready-to-use .srt / .vtt subtitles. Runs on a CPU runtime with int8 models, and much faster on a GPU.",
+      "tags": [
+        "app",
+        "audio",
+        "speech-to-text",
+        "subtitles",
+        "whisper"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "audio",
+          "label": "Audio or video file",
+          "type": "string",
+          "required": true,
+          "description": "Any format ffmpeg reads: mp3, wav, m4a, ogg, flac, mp4, mkv, webm…"
+        },
+        {
+          "key": "model",
+          "label": "Model",
+          "type": "select",
+          "options": [
+            "tiny",
+            "base",
+            "small",
+            "medium",
+            "large-v3-turbo"
+          ],
+          "default": "small",
+          "description": "Bigger models are more accurate and slower."
+        },
+        {
+          "key": "language",
+          "label": "Spoken language",
+          "type": "select",
+          "options": [
+            "auto",
+            "en",
+            "es",
+            "fr",
+            "de",
+            "it",
+            "pt",
+            "nl",
+            "pl",
+            "ru",
+            "uk",
+            "tr",
+            "ar",
+            "hi",
+            "bn",
+            "ur",
+            "id",
+            "vi",
+            "th",
+            "zh",
+            "ja",
+            "ko"
+          ],
+          "default": "auto"
+        },
+        {
+          "key": "task",
+          "label": "Task",
+          "type": "select",
+          "options": [
+            "transcribe",
+            "translate"
+          ],
+          "default": "transcribe",
+          "description": "Translate turns speech in any language into English text."
+        },
+        {
+          "key": "vad_filter",
+          "label": "Skip silence (voice activity detection)",
+          "type": "boolean",
+          "default": true,
+          "description": "Cuts out silence and music before transcribing, which avoids made-up text in quiet parts."
+        },
+        {
+          "key": "word_timestamps",
+          "label": "Short subtitle lines (word timings)",
+          "type": "boolean",
+          "default": false,
+          "description": "Times every word and builds subtitle lines of at most 42 characters. A little slower."
+        }
+      ],
+      "source": "notebooks/speech-to-text/notebook.py",
+      "sha256": "bfc3ff3b8e0503e6248454d45b02be70ea2ee7cc4706944a37d5cc91acf826b2",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "captions",
+        "category": "audio",
+        "tagline": "Transcribe audio or video into text and .srt / .vtt subtitles with Whisper.",
+        "runtime": {
+          "accelerator": "CPU",
+          "supported": [
+            "CPU",
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ]
+        },
+        "estimates": {
+          "setup": 10,
+          "run": 27,
+          "measuredOn": "CPU",
+          "runNote": "for a 60-second clip with the Small model on 2 vCPUs (about 2.3x realtime; Base runs about 7x realtime)"
+        },
+        "runLabel": "Transcribe",
+        "inputs": [
+          {
+            "param": "audio",
+            "widget": "file",
+            "accept": "audio/*,video/*",
+            "maxMb": 500
+          },
+          {
+            "param": "model",
+            "widget": "segmented",
+            "labels": {
+              "tiny": "Tiny · fastest",
+              "base": "Base · fast",
+              "small": "Small · balanced",
+              "medium": "Medium · slow on CPU",
+              "large-v3-turbo": "Large v3 Turbo · best, for GPUs"
+            }
+          },
+          {
+            "param": "language",
+            "widget": "select",
+            "labels": {
+              "auto": "Detect automatically",
+              "en": "English",
+              "es": "Spanish",
+              "fr": "French",
+              "de": "German",
+              "it": "Italian",
+              "pt": "Portuguese",
+              "nl": "Dutch",
+              "pl": "Polish",
+              "ru": "Russian",
+              "uk": "Ukrainian",
+              "tr": "Turkish",
+              "ar": "Arabic",
+              "hi": "Hindi",
+              "bn": "Bengali",
+              "ur": "Urdu",
+              "id": "Indonesian",
+              "vi": "Vietnamese",
+              "th": "Thai",
+              "zh": "Chinese",
+              "ja": "Japanese",
+              "ko": "Korean"
+            }
+          },
+          {
+            "param": "task",
+            "widget": "segmented",
+            "labels": {
+              "transcribe": "Transcribe",
+              "translate": "Translate to English (not with Large v3 Turbo)"
+            }
+          },
+          {
+            "param": "vad_filter",
+            "widget": "switch",
+            "section": "Advanced"
+          },
+          {
+            "param": "word_timestamps",
+            "widget": "switch",
+            "section": "Advanced"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "transcript",
+            "kind": "text",
+            "label": "Transcript"
+          },
+          {
+            "id": "segments",
+            "kind": "table",
+            "label": "Timed segments"
+          },
+          {
+            "id": "srt",
+            "kind": "file",
+            "label": "Subtitles (.srt)"
+          },
+          {
+            "id": "vtt",
+            "kind": "file",
+            "label": "Subtitles (.vtt)"
+          },
+          {
+            "id": "txt",
+            "kind": "file",
+            "label": "Transcript (.txt)"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Fast draft",
+            "values": {
+              "model": "base",
+              "language": "auto",
+              "task": "transcribe"
+            }
+          },
+          {
+            "label": "Subtitles for a video",
+            "values": {
+              "model": "small",
+              "task": "transcribe",
+              "word_timestamps": true
+            }
+          },
+          {
+            "label": "Translate to English",
+            "values": {
+              "model": "small",
+              "language": "auto",
+              "task": "translate"
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "faster-whisper",
+            "url": "https://github.com/SYSTRAN/faster-whisper"
+          },
+          {
+            "label": "Whisper paper",
+            "url": "https://arxiv.org/abs/2212.04356"
+          }
+        ],
+        "license": "MIT"
+      }
+    },
+    {
       "slug": "hf-text-generation",
       "title": "Text Generation (Hugging Face)",
       "description": "Runs a Hugging Face text-generation model on your runtime and prints the continuation.",
@@ -853,6 +1943,197 @@
       ],
       "source": "notebooks/hf-text-generation/notebook.py",
       "sha256": "7657ebb30516a13b90495ec7c5aebf2a605321086a1e15657a4ab815db9f881a"
+    },
+    {
+      "slug": "stem-splitter",
+      "title": "Vocal Remover & Stem Splitter",
+      "description": "Splits a song into vocals and instrumental (karaoke), or into vocals, drums, bass and other, with Meta's HT Demucs. Accepts audio or video files. Runs on a CPU runtime (a few minutes per song) and much faster on a GPU.",
+      "tags": [
+        "app",
+        "audio",
+        "music",
+        "source-separation",
+        "demucs"
+      ],
+      "author": "NZAP Labs",
+      "params": [
+        {
+          "key": "audio",
+          "label": "Song (audio or video file)",
+          "type": "string",
+          "required": true,
+          "description": "Any format ffmpeg reads: mp3, wav, flac, m4a, ogg, mp4, webm…"
+        },
+        {
+          "key": "mode",
+          "label": "Stems",
+          "type": "select",
+          "options": [
+            "vocals",
+            "four"
+          ],
+          "default": "vocals"
+        },
+        {
+          "key": "model",
+          "label": "Model",
+          "type": "select",
+          "options": [
+            "htdemucs",
+            "htdemucs_ft"
+          ],
+          "default": "htdemucs",
+          "description": "htdemucs_ft is a little cleaner; for four stems it runs four networks, about 4x slower."
+        },
+        {
+          "key": "format",
+          "label": "Format",
+          "type": "select",
+          "options": [
+            "mp3",
+            "wav"
+          ],
+          "default": "mp3"
+        },
+        {
+          "key": "max_minutes",
+          "label": "Max minutes",
+          "type": "number",
+          "default": 10,
+          "description": "Refuses longer tracks, so one long file cannot tie up a CPU runtime for an hour. 0 means no limit."
+        }
+      ],
+      "source": "notebooks/stem-splitter/notebook.py",
+      "sha256": "3703ec577f0d635ce756b1a75591aa3778189878447f5d46cbf28e40f5da4fee",
+      "app": {
+        "format": "nzap-app/1",
+        "icon": "audio-waveform",
+        "category": "audio",
+        "tagline": "Remove vocals or split a song into vocals, drums, bass and other with Demucs.",
+        "runtime": {
+          "accelerator": "CPU",
+          "supported": [
+            "CPU",
+            "T4",
+            "L4",
+            "A100",
+            "H100",
+            "G4"
+          ]
+        },
+        "estimates": {
+          "setup": 10,
+          "run": 78,
+          "measuredOn": "CPU",
+          "runNote": "for a 60-second clip with htdemucs on 2 vCPUs (about 1.3 s per second of music, so a 4-minute song takes about 5 minutes)"
+        },
+        "runLabel": "Split",
+        "inputs": [
+          {
+            "param": "audio",
+            "widget": "file",
+            "accept": "audio/*,video/*",
+            "maxMb": 300
+          },
+          {
+            "param": "mode",
+            "widget": "segmented",
+            "labels": {
+              "vocals": "Vocals + instrumental",
+              "four": "Vocals, drums, bass, other"
+            }
+          },
+          {
+            "param": "model",
+            "widget": "radio",
+            "labels": {
+              "htdemucs": "HT Demucs · fast",
+              "htdemucs_ft": "HT Demucs fine-tuned · cleaner, 4x slower for four stems"
+            }
+          },
+          {
+            "param": "format",
+            "widget": "segmented",
+            "labels": {
+              "mp3": "MP3 (320 kbps)",
+              "wav": "WAV (16-bit)"
+            }
+          },
+          {
+            "param": "max_minutes",
+            "widget": "slider",
+            "min": 0,
+            "max": 60,
+            "step": 1,
+            "unit": "min",
+            "section": "Advanced"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "vocals",
+            "kind": "audio",
+            "label": "Vocals"
+          },
+          {
+            "id": "instrumental",
+            "kind": "audio",
+            "label": "Instrumental"
+          },
+          {
+            "id": "drums",
+            "kind": "audio",
+            "label": "Drums"
+          },
+          {
+            "id": "bass",
+            "kind": "audio",
+            "label": "Bass"
+          },
+          {
+            "id": "other",
+            "kind": "audio",
+            "label": "Other"
+          }
+        ],
+        "examples": [
+          {
+            "label": "Karaoke track",
+            "values": {
+              "mode": "vocals",
+              "model": "htdemucs",
+              "format": "mp3"
+            }
+          },
+          {
+            "label": "Clean acapella",
+            "values": {
+              "mode": "vocals",
+              "model": "htdemucs_ft",
+              "format": "wav"
+            }
+          },
+          {
+            "label": "All four stems",
+            "values": {
+              "mode": "four",
+              "model": "htdemucs",
+              "format": "wav"
+            }
+          }
+        ],
+        "links": [
+          {
+            "label": "Demucs",
+            "url": "https://github.com/adefossez/demucs"
+          },
+          {
+            "label": "HT Demucs paper",
+            "url": "https://arxiv.org/abs/2211.08553"
+          }
+        ],
+        "license": "MIT"
+      }
     },
     {
       "slug": "z-image",

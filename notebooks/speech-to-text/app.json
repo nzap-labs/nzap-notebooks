@@ -1,0 +1,153 @@
+{
+  "format": "nzap-app/1",
+  "icon": "captions",
+  "category": "audio",
+  "tagline": "Transcribe audio or video into text and .srt / .vtt subtitles with Whisper.",
+  "runtime": {
+    "accelerator": "CPU",
+    "supported": [
+      "CPU",
+      "T4",
+      "L4",
+      "A100",
+      "H100",
+      "G4"
+    ]
+  },
+  "estimates": {
+    "setup": 10,
+    "run": 27,
+    "measuredOn": "CPU",
+    "runNote": "for a 60-second clip with the Small model on 2 vCPUs (about 2.3x realtime; Base runs about 7x realtime)"
+  },
+  "runLabel": "Transcribe",
+  "inputs": [
+    {
+      "param": "audio",
+      "widget": "file",
+      "accept": "audio/*,video/*",
+      "maxMb": 500
+    },
+    {
+      "param": "model",
+      "widget": "segmented",
+      "labels": {
+        "tiny": "Tiny · fastest",
+        "base": "Base · fast",
+        "small": "Small · balanced",
+        "medium": "Medium · slow on CPU",
+        "large-v3-turbo": "Large v3 Turbo · best, for GPUs"
+      }
+    },
+    {
+      "param": "language",
+      "widget": "select",
+      "labels": {
+        "auto": "Detect automatically",
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "de": "German",
+        "it": "Italian",
+        "pt": "Portuguese",
+        "nl": "Dutch",
+        "pl": "Polish",
+        "ru": "Russian",
+        "uk": "Ukrainian",
+        "tr": "Turkish",
+        "ar": "Arabic",
+        "hi": "Hindi",
+        "bn": "Bengali",
+        "ur": "Urdu",
+        "id": "Indonesian",
+        "vi": "Vietnamese",
+        "th": "Thai",
+        "zh": "Chinese",
+        "ja": "Japanese",
+        "ko": "Korean"
+      }
+    },
+    {
+      "param": "task",
+      "widget": "segmented",
+      "labels": {
+        "transcribe": "Transcribe",
+        "translate": "Translate to English (not with Large v3 Turbo)"
+      }
+    },
+    {
+      "param": "vad_filter",
+      "widget": "switch",
+      "section": "Advanced"
+    },
+    {
+      "param": "word_timestamps",
+      "widget": "switch",
+      "section": "Advanced"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "transcript",
+      "kind": "text",
+      "label": "Transcript"
+    },
+    {
+      "id": "segments",
+      "kind": "table",
+      "label": "Timed segments"
+    },
+    {
+      "id": "srt",
+      "kind": "file",
+      "label": "Subtitles (.srt)"
+    },
+    {
+      "id": "vtt",
+      "kind": "file",
+      "label": "Subtitles (.vtt)"
+    },
+    {
+      "id": "txt",
+      "kind": "file",
+      "label": "Transcript (.txt)"
+    }
+  ],
+  "examples": [
+    {
+      "label": "Fast draft",
+      "values": {
+        "model": "base",
+        "language": "auto",
+        "task": "transcribe"
+      }
+    },
+    {
+      "label": "Subtitles for a video",
+      "values": {
+        "model": "small",
+        "task": "transcribe",
+        "word_timestamps": true
+      }
+    },
+    {
+      "label": "Translate to English",
+      "values": {
+        "model": "small",
+        "language": "auto",
+        "task": "translate"
+      }
+    }
+  ],
+  "links": [
+    {
+      "label": "faster-whisper",
+      "url": "https://github.com/SYSTRAN/faster-whisper"
+    },
+    {
+      "label": "Whisper paper",
+      "url": "https://arxiv.org/abs/2212.04356"
+    }
+  ],
+  "license": "MIT"
+}

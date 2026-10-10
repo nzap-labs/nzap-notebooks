@@ -1,0 +1,60 @@
+{
+  "slug": "minimax-h3",
+  "title": "MiniMax-H3 Text to Video + Audio (TPU)",
+  "description": "Turns a sentence into a 5-second video (124 frames at 24 fps, 672x384) with matching stereo sound, using MiniMax-H3 (2-bit GGUF) and Comfy-Org's 8-step turbo LoRA, in JAX on a Colab TPU. Needs a TPU v5e-1 runtime: it does not run on CPU or GPU. First run on a fresh TPU: about 4 minutes of setup (installs JAX for TPU, downloads about 28 GB of weights; the two GGUFs go into RAM) before generating. Each clip then takes about 3 minutes 15 seconds: about 95 s to load the models from RAM, 77 s for the 8 denoising steps, and 40 s to decode video and audio. Weights: MiniMax H3 Community License (commercial use only outside the EU, UK, South Korea and US, and with permission above $20M yearly revenue).",
+  "tags": [
+    "app",
+    "video",
+    "audio",
+    "text-to-video",
+    "tpu",
+    "jax",
+    "gguf",
+    "huggingface"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "prompt",
+      "label": "Prompt",
+      "type": "text",
+      "required": true,
+      "default": "a golden retriever puppy running through a sunny meadow of wildflowers toward the camera, happy barking, birds singing",
+      "description": "Describe the scene, the motion and the sound. One clear subject works best."
+    },
+    {
+      "key": "size",
+      "label": "Size",
+      "type": "select",
+      "options": [
+        "672x384",
+        "384x672",
+        "512x512"
+      ],
+      "default": "672x384"
+    },
+    {
+      "key": "steps",
+      "label": "Turbo steps",
+      "type": "select",
+      "options": [
+        "8",
+        "4"
+      ],
+      "default": "8",
+      "description": "8 steps is the tested setting. 4 steps uses the 768p-trained 4-step LoRA and is about 20 s faster."
+    },
+    {
+      "key": "seed",
+      "label": "Seed",
+      "type": "integer",
+      "default": 3
+    },
+    {
+      "key": "lora_strength",
+      "label": "Turbo LoRA strength",
+      "type": "number",
+      "default": 1.0
+    }
+  ]
+}

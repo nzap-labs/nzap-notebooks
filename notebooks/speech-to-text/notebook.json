@@ -1,0 +1,91 @@
+{
+  "slug": "speech-to-text",
+  "title": "Speech to Text",
+  "description": "Transcribes or translates an audio or video file with faster-whisper (OpenAI Whisper on CTranslate2) and returns the transcript, timed segments and ready-to-use .srt / .vtt subtitles. Runs on a CPU runtime with int8 models, and much faster on a GPU.",
+  "tags": [
+    "app",
+    "audio",
+    "speech-to-text",
+    "subtitles",
+    "whisper"
+  ],
+  "author": "NZAP Labs",
+  "params": [
+    {
+      "key": "audio",
+      "label": "Audio or video file",
+      "type": "string",
+      "required": true,
+      "description": "Any format ffmpeg reads: mp3, wav, m4a, ogg, flac, mp4, mkv, webm…"
+    },
+    {
+      "key": "model",
+      "label": "Model",
+      "type": "select",
+      "options": [
+        "tiny",
+        "base",
+        "small",
+        "medium",
+        "large-v3-turbo"
+      ],
+      "default": "small",
+      "description": "Bigger models are more accurate and slower."
+    },
+    {
+      "key": "language",
+      "label": "Spoken language",
+      "type": "select",
+      "options": [
+        "auto",
+        "en",
+        "es",
+        "fr",
+        "de",
+        "it",
+        "pt",
+        "nl",
+        "pl",
+        "ru",
+        "uk",
+        "tr",
+        "ar",
+        "hi",
+        "bn",
+        "ur",
+        "id",
+        "vi",
+        "th",
+        "zh",
+        "ja",
+        "ko"
+      ],
+      "default": "auto"
+    },
+    {
+      "key": "task",
+      "label": "Task",
+      "type": "select",
+      "options": [
+        "transcribe",
+        "translate"
+      ],
+      "default": "transcribe",
+      "description": "Translate turns speech in any language into English text."
+    },
+    {
+      "key": "vad_filter",
+      "label": "Skip silence (voice activity detection)",
+      "type": "boolean",
+      "default": true,
+      "description": "Cuts out silence and music before transcribing, which avoids made-up text in quiet parts."
+    },
+    {
+      "key": "word_timestamps",
+      "label": "Short subtitle lines (word timings)",
+      "type": "boolean",
+      "default": false,
+      "description": "Times every word and builds subtitle lines of at most 42 characters. A little slower."
+    }
+  ]
+}
